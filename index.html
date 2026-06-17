@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduKeep — You Keep What You Earn</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@400;500;600&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #2D7A4F;
+      --green-dark: #1A4D30;
+      --green-light: #E8F5EE;
+      --green-mid: #4CAF80;
+      --gold: #F5A623;
+      --gold-light: #FFF8EC;
+      --chalk: #FAFAF7;
+      --ink: #1A1A1A;
+      --ink-soft: #555;
+      --border: #E0E0DA;
+      --white: #fff;
+      --radius: 12px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--chalk);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    /* ── APPLE LOGO SVG COMPONENT ── */
+    .apple-mark {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 40px;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-wordmark {
+      font-family: 'Fraunces', serif;
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: var(--green);
+      letter-spacing: -0.5px;
+    }
+    .nav-wordmark span { color: var(--gold); }
+    nav a.nav-cta {
+      background: var(--green);
+      color: #fff;
+      font-size: 0.875rem;
+      font-weight: 600;
+      padding: 9px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    nav a.nav-cta:hover { background: var(--green-dark); }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 72px 24px 56px;
+      text-align: center;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--green-light);
+      color: var(--green);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.4rem, 5.5vw, 4rem);
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 14px;
+    }
+    .hero h1 .highlight {
+      color: var(--green);
+      position: relative;
+      display: inline-block;
+    }
+    .hero h1 .highlight::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 3px;
+      width: 100%; height: 7px;
+      background: var(--gold);
+      opacity: 0.4;
+      border-radius: 3px;
+      z-index: -1;
+    }
+    .tagline {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-size: 1.45rem;
+      color: var(--ink-soft);
+      margin-bottom: 36px;
+    }
+
+    /* ── PAYOUT BADGE ── */
+    .payout-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 18px;
+      background: var(--white);
+      border: 2.5px solid var(--green);
+      border-radius: 14px;
+      padding: 18px 32px;
+      margin-bottom: 44px;
+      box-shadow: 0 4px 20px rgba(45,122,79,0.1);
+    }
+    .payout-badge .num {
+      font-family: 'Fraunces', serif;
+      font-size: 3.2rem;
+      font-weight: 900;
+      color: var(--green);
+      line-height: 1;
+    }
+    .payout-badge .label { text-align: left; }
+    .payout-badge .label strong {
+      display: block;
+      font-size: 1rem;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+    .payout-badge .label span {
+      font-size: 0.83rem;
+      color: var(--ink-soft);
+    }
+
+    /* ── WAITLIST ── */
+    .waitlist-box {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 34px;
+      max-width: 520px;
+      margin: 0 auto;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+    .waitlist-box h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .waitlist-box p {
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+      margin-bottom: 20px;
+    }
+    .form-row { display: flex; gap: 8px; }
+    .form-row input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1.5px solid var(--green-mid);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      background: #E8F5EE;
+      color: var(--ink);
+    }
+    .form-row input::placeholder { color: #7DC4A0; }
+    .form-row input:focus { border-color: var(--green); background: #d4eedd; }
+    .btn-primary {
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 22px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-primary:hover { background: var(--green-dark); }
+    .form-note { font-size: 0.76rem; color: #aaa; margin-top: 10px; }
+    .success-msg {
+      display: none;
+      background: var(--green-light);
+      color: var(--green);
+      border-radius: 8px;
+      padding: 14px;
+      font-weight: 600;
+      margin-top: 12px;
+      font-size: 0.92rem;
+    }
+
+    /* ── SOCIAL PROOF BAR ── */
+    .proof-bar {
+      background: var(--green-dark);
+      color: rgba(255,255,255,0.85);
+      text-align: center;
+      padding: 12px 24px;
+      font-size: 0.85rem;
+      letter-spacing: 0.02em;
+    }
+    .proof-bar strong { color: var(--gold); }
+
+    /* ── SECTIONS ── */
+    .section {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 64px 24px;
+    }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 10px;
+    }
+    .section h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      margin-bottom: 32px;
+      line-height: 1.2;
+    }
+
+    /* ── COMPARE TABLE ── */
+    table.compare {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.93rem;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+    }
+    table.compare th {
+      text-align: left;
+      padding: 12px 18px;
+      background: var(--green);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+    }
+    table.compare td {
+      padding: 15px 18px;
+      border-bottom: 1px solid var(--border);
+      color: var(--ink-soft);
+      background: var(--white);
+    }
+    table.compare tr.highlight-row td {
+      background: var(--gold-light);
+      color: var(--ink);
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    table.compare tr.highlight-row td:nth-child(2) { color: var(--green); font-size: 1.1rem; }
+    .badge-winner {
+      background: var(--gold);
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 100px;
+      margin-left: 8px;
+      vertical-align: middle;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── STEPS ── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 18px;
+    }
+    .step-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 26px 22px;
+      transition: box-shadow 0.2s;
+    }
+    .step-card:hover { box-shadow: 0 4px 20px rgba(45,122,79,0.1); }
+    .step-icon { font-size: 1.9rem; margin-bottom: 14px; }
+    .step-card h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 7px;
+    }
+    .step-card p { font-size: 0.86rem; color: var(--ink-soft); line-height: 1.55; }
+
+    /* ── DIVIDER ── */
+    hr { border: none; border-top: 1px solid var(--border); }
+
+    /* ── BOTTOM CTA ── */
+    .bottom-cta {
+      background: var(--green-dark);
+      padding: 72px 24px;
+      text-align: center;
+    }
+    .bottom-cta h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .bottom-cta p { color: rgba(255,255,255,0.7); margin-bottom: 28px; font-size: 0.95rem; }
+    .bottom-cta .form-row { max-width: 440px; margin: 0 auto; }
+    .bottom-cta input {
+      flex: 1;
+      padding: 13px 16px;
+      border: 1.5px solid var(--green-mid);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      background: #E8F5EE;
+      color: var(--ink);
+    }
+    .bottom-cta input::placeholder { color: #7DC4A0; }
+    .bottom-cta input:focus { background: #d4eedd; border-color: var(--green); }
+    .bottom-cta .btn-primary { background: var(--gold); color: var(--ink); }
+    .bottom-cta .btn-primary:hover { background: #e09510; }
+    .bottom-cta .form-note { color: rgba(255,255,255,0.4); margin-top: 12px; }
+    .bottom-cta .success-msg { max-width: 440px; margin: 12px auto 0; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #111;
+      text-align: center;
+      padding: 28px 24px;
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .footer-wordmark {
+      font-family: 'Fraunces', serif;
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--green-mid);
+    }
+    .footer-wordmark span { color: var(--gold); }
+    footer p { font-size: 0.8rem; color: #555; }
+
+    /* ── AI CHAT WIDGET ── */
+    #chat-bubble {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 999;
+    }
+    #chat-toggle {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: var(--green);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 24px rgba(45,122,79,0.45);
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-size: 0;
+    }
+    #chat-toggle:hover {
+      transform: scale(1.07);
+      box-shadow: 0 6px 28px rgba(45,122,79,0.55);
+    }
+
+    #chat-window {
+      display: none;
+      position: absolute;
+      bottom: 76px;
+      right: 0;
+      width: 348px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.14);
+      overflow: hidden;
+      flex-direction: column;
+    }
+    #chat-window.open { display: flex; }
+
+    .chat-header {
+      background: var(--green);
+      color: #fff;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+    .chat-avatar {
+      width: 38px; height: 38px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .chat-header-text .name { font-weight: 600; font-size: 0.95rem; }
+    .chat-header-text .status { font-size: 0.73rem; opacity: 0.75; }
+
+    #chat-messages {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      max-height: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .msg {
+      max-width: 86%;
+      padding: 10px 14px;
+      border-radius: 13px;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+    .msg.bot {
+      background: var(--green-light);
+      color: var(--ink);
+      align-self: flex-start;
+      border-bottom-left-radius: 3px;
+    }
+    .msg.user {
+      background: var(--green);
+      color: #fff;
+      align-self: flex-end;
+      border-bottom-right-radius: 3px;
+    }
+    .msg.typing { background: var(--green-light); align-self: flex-start; color: var(--ink-soft); font-style: italic; }
+
+    .chat-suggestions {
+      padding: 0 14px 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .suggestion-btn {
+      background: var(--green-light);
+      color: var(--green);
+      border: 1px solid #c3e2d0;
+      border-radius: 100px;
+      padding: 5px 12px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.15s;
+    }
+    .suggestion-btn:hover { background: #d0eedd; }
+
+    .chat-input-row {
+      display: flex;
+      padding: 12px;
+      border-top: 1px solid var(--border);
+      gap: 8px;
+      background: var(--chalk);
+    }
+    #chat-input {
+      flex: 1;
+      border: 1.5px solid var(--green-mid);
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 0.875rem;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      background: #E8F5EE;
+      color: var(--ink);
+    }
+    #chat-input::placeholder { color: #7DC4A0; }
+    #chat-input:focus { border-color: var(--green); background: #d4eedd; }
+    #chat-send {
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 14px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+    #chat-send:hover { background: var(--green-dark); }
+
+    /* ── CALCULATOR ── */
+    .calc-wrap { max-width: 580px; margin: 0 auto; }
+    .calc-box {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 32px;
+      box-shadow: 0 4px 28px rgba(0,0,0,0.07);
+    }
+    .calc-input-group { margin-bottom: 28px; }
+    .calc-input-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--ink);
+    }
+    .calc-input-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 2px solid var(--green);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .dollar-sign {
+      padding: 0 14px;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--green);
+      background: var(--green-light);
+      height: 56px;
+      display: flex;
+      align-items: center;
+    }
+    .calc-input-row input[type="number"] {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 1.6rem;
+      font-family: 'Fraunces', serif;
+      font-weight: 900;
+      color: var(--ink);
+      padding: 0 16px;
+      height: 56px;
+      width: 100%;
+    }
+    .calc-slider-wrap { padding: 0 2px; }
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--green);
+      cursor: pointer;
+      height: 4px;
+    }
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: #aaa;
+      margin-top: 4px;
+    }
+
+    .calc-results {
+      background: var(--chalk);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .calc-result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+    }
+    .calc-result-row.primary { padding: 10px 0 14px; }
+    .calc-result-label { font-size: 0.9rem; color: var(--ink-soft); }
+    .calc-result-row.small .calc-result-label { font-size: 0.8rem; color: #aaa; }
+    .calc-result-value {
+      font-family: 'Fraunces', serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--ink);
+    }
+    .calc-result-row.primary .calc-result-value { font-size: 2rem; }
+    .calc-result-row.small .calc-result-value { font-size: 0.88rem; font-family: 'Inter', sans-serif; font-weight: 500; }
+    .calc-result-value.green { color: var(--green); }
+    .calc-result-value.muted { color: #aaa; }
+    .calc-divider { border-top: 1px dashed var(--border); margin: 4px 0; }
+
+    .calc-compare {
+      background: var(--gold-light);
+      border: 1px solid #f0dba0;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 20px;
+    }
+    .calc-compare-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--ink-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+    .calc-compare-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .calc-compare-row.winner {
+      font-weight: 700;
+      color: var(--ink);
+      border-bottom: none;
+      padding-top: 10px;
+      font-size: 1rem;
+    }
+    .green { color: var(--green); }
+    .red { color: #c0392b; }
+    .bold { font-weight: 700; }
+
+    .calc-monthly {
+      background: var(--green-light);
+      border-radius: 12px;
+      padding: 18px 20px;
+    }
+    .calc-monthly-label {
+      font-size: 0.88rem;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+    .calc-monthly-result {
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+      margin-top: 10px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 12px 16px; }
+      .hero { padding: 44px 16px 36px; }
+      .form-row { flex-direction: column; }
+      #chat-window { width: 300px; right: -4px; }
+      .bottom-cta h2 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">
+    <!-- Apple SVG logo mark -->
+    <svg width="34" height="34" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
+      <!-- stem -->
+      <path d="M18 7 Q20 3 24 4" stroke="#2D7A4F" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <!-- apple body -->
+      <path d="M17 9 C10 9 6 14 6 20 C6 26.5 10.5 31 15 31 C16.2 31 17.2 30.5 17 30.5 C16.8 30.5 17.8 31 19 31 C23.5 31 28 26.5 28 20 C28 14 24 9 17 9 Z" fill="#2D7A4F"/>
+      <!-- shine -->
+      <ellipse cx="12" cy="16" rx="2.5" ry="3.5" fill="rgba(255,255,255,0.22)" transform="rotate(-15 12 16)"/>
+      <!-- gold leaf -->
+      <path d="M18.5 9 C18.5 9 22 6 25 8 C22 8.5 19.5 11 18.5 9 Z" fill="#F5A623"/>
+      <!-- gold dollar on apple -->
+      <text x="17" y="24" font-family="'Fraunces',serif" font-size="11" font-weight="900" fill="#F5A623" text-anchor="middle">$</text>
+    </svg>
+    <span class="nav-wordmark">Edu<span>Keep</span></span>
+  </a>
+  <a href="#waitlist" class="nav-cta">Join Waitlist</a>
+</nav>
+
+<!-- PROOF BAR -->
+<div class="proof-bar">
+  🍎 Built by a teacher, for teachers — <strong>launching soon</strong> · Be a founding seller
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="eyebrow">🍎 Coming Soon — Join the Waitlist</div>
+  <h1>The marketplace where teachers <span class="highlight">keep</span> what they earn</h1>
+  <p class="tagline">"You already work hard for your money... You should keep it."</p>
+
+  <div class="payout-badge">
+    <div class="num">93%</div>
+    <div class="label">
+      <strong>Goes to you — forever</strong>
+      <span>One-time $36 to join. Then $0/year. Always.</span>
+    </div>
+  </div>
+
+  <!-- WAITLIST FORM — Direct Kit POST -->
+  <div class="waitlist-box" id="waitlist">
+    <h2>Be FIRST to know when we launch!</h2>
+    <p>Done giving 45% to other platforms? So are we.<br><br>Join teachers who want to keep what's theirs!!</p>
+    <form action="https://app.kit.com/forms/9a0ff0e7f4/subscriptions" method="post" onsubmit="handleSubmit(event, 'success-msg')">
+      <div class="form-row">
+        <input type="email" name="email_address" placeholder="your@email.com" required />
+        <button type="submit" class="btn-primary">Get Early Access</button>
+      </div>
+    </form>
+    <div class="form-note">🔒 No spam. Unsubscribe anytime.</div>
+    <div class="success-msg" id="success-msg">✅ You're on the list! We'll be in touch soon.</div>
+  </div>
+</section>
+
+<hr />
+
+<!-- COMPARE -->
+<section class="section">
+  <div class="section-label">The Problem</div>
+  <h2>TPT keeps nearly half your earnings. We don't.</h2>
+  <table class="compare">
+    <thead>
+      <tr>
+        <th>Platform</th>
+        <th>You Keep</th>
+        <th>Fee</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>TPT (Free)</td>
+        <td>55%</td>
+        <td>$0/yr — but 45% gone forever</td>
+      </tr>
+      <tr>
+        <td>TPT Premium</td>
+        <td>80%</td>
+        <td>$59.95 every year</td>
+      </tr>
+      <tr>
+        <td>Teacher's Notebook</td>
+        <td>~80%</td>
+        <td>Annual fee</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>EduKeep <span class="badge-winner">BEST</span></td>
+        <td>93%</td>
+        <td>$36 <em>once</em> — then $0 forever</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<hr />
+
+<!-- HOW IT WORKS -->
+<section class="section">
+  <div class="section-label">How It Works</div>
+  <h2>Simple for sellers. Simple for buyers.</h2>
+  <div class="steps">
+    <div class="step-card">
+      <div class="step-icon">📤</div>
+      <h3>Upload your resource</h3>
+      <p>List PDFs, worksheets, and lesson plans in minutes. Set your price and go live instantly.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-icon">💳</div>
+      <h3>Buyer checks out</h3>
+      <p>Stripe handles payment securely. No friction, no second-guessing for buyers.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-icon">🔗</div>
+      <h3>Secure delivery</h3>
+      <p>Buyers get a one-time download link. Your file stays protected on our servers.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-icon">💰</div>
+      <h3>You get paid — 93%</h3>
+      <p>Payouts hit your account via Stripe Connect. No waiting, no minimums, no surprises.</p>
+    </div>
+  </div>
+</section>
+
+<hr />
+
+<!-- PRICING CALCULATOR -->
+<section class="section">
+  <div class="section-label">Earnings Calculator</div>
+  <h2>Enter what you want to earn — we set the price for you.</h2>
+
+  <div class="calc-wrap">
+    <div class="calc-box">
+      <div class="calc-input-group">
+        <label for="earn-input">💰 I want to earn per sale</label>
+        <div class="calc-input-row">
+          <span class="dollar-sign">$</span>
+          <input type="number" id="earn-input" value="10.00" min="0.50" step="0.50" oninput="calcUpdate()" />
+        </div>
+        <div class="calc-slider-wrap">
+          <input type="range" id="earn-slider" min="1" max="100" value="10" step="0.5" oninput="sliderUpdate()" />
+          <div class="slider-labels"><span>$1</span><span>$100</span></div>
+        </div>
+      </div>
+
+      <div class="calc-results">
+        <div class="calc-result-row primary">
+          <div class="calc-result-label">📋 Your listing price</div>
+          <div class="calc-result-value" id="listing-price">$10.75</div>
+        </div>
+        <div class="calc-divider"></div>
+        <div class="calc-result-row">
+          <div class="calc-result-label">✅ You take home</div>
+          <div class="calc-result-value green" id="teacher-take">$10.00</div>
+        </div>
+        <div class="calc-result-row small">
+          <div class="calc-result-label">Stripe processing fee</div>
+          <div class="calc-result-value muted" id="stripe-fee">~$0.61</div>
+        </div>
+        <div class="calc-result-row small">
+          <div class="calc-result-label">EduKeep platform fee</div>
+          <div class="calc-result-value muted" id="edu-fee">~$0.14</div>
+        </div>
+      </div>
+
+      <div class="calc-compare">
+        <div class="calc-compare-label">On the same sale, TPT would pay you</div>
+        <div class="calc-compare-row">
+          <span>TPT Free (55%)</span>
+          <span class="red" id="tpt-free">$5.50</span>
+        </div>
+        <div class="calc-compare-row">
+          <span>TPT Premium (80%)</span>
+          <span class="red" id="tpt-premium">$8.00</span>
+        </div>
+        <div class="calc-compare-row winner">
+          <span>EduKeep (93%) 🍎</span>
+          <span class="green" id="edu-win">$10.00</span>
+        </div>
+      </div>
+
+      <div class="calc-monthly">
+        <div class="calc-monthly-label">📅 If you sell <strong id="monthly-count">10</strong> resources/month at this price:</div>
+        <input type="range" id="volume-slider" min="1" max="200" value="10" step="1" oninput="calcUpdate()" />
+        <div class="slider-labels"><span>1/mo</span><span>200/mo</span></div>
+        <div class="calc-monthly-result">
+          You earn <span class="green bold" id="monthly-earn">$100.00</span>/month
+          vs <span class="red" id="monthly-tpt">$80.00</span> on TPT Premium
+          — that's <span class="green bold" id="monthly-diff">$20.00</span> more every month
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOTTOM CTA -->
+<div class="bottom-cta">
+  <h2>Ready to stop giving 45% away?</h2>
+  <p>Join for <strong style="color:var(--gold);">$36 once</strong> — then sell forever and keep 93%. No renewals. No surprises.</p>
+  <form action="https://app.kit.com/forms/9a0ff0e7f4/subscriptions" method="post" onsubmit="handleSubmit(event, 'success-msg-2')" style="max-width:440px; margin: 0 auto;">
+    <div class="form-row">
+      <input type="email" name="email_address" placeholder="your@email.com" required />
+      <button type="submit" class="btn-primary">Get Founding Access</button>
+    </div>
+  </form>
+  <div class="form-note">🔒 No spam. Unsubscribe anytime.</div>
+  <div class="success-msg" id="success-msg-2">✅ You're on the list! We'll be in touch soon.</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <svg width="26" height="26" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 7 Q20 3 24 4" stroke="#4CAF80" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M17 9 C10 9 6 14 6 20 C6 26.5 10.5 31 15 31 C16.2 31 17.2 30.5 17 30.5 C16.8 30.5 17.8 31 19 31 C23.5 31 28 26.5 28 20 C28 14 24 9 17 9 Z" fill="#4CAF80"/>
+      <ellipse cx="12" cy="16" rx="2.5" ry="3.5" fill="rgba(255,255,255,0.18)" transform="rotate(-15 12 16)"/>
+      <path d="M18.5 9 C18.5 9 22 6 25 8 C22 8.5 19.5 11 18.5 9 Z" fill="#F5A623"/>
+      <text x="17" y="24" font-family="'Fraunces',serif" font-size="11" font-weight="900" fill="#F5A623" text-anchor="middle">$</text>
+    </svg>
+    <span class="footer-wordmark">Edu<span>Keep</span></span>
+  </div>
+  <p>Built by a teacher, for teachers. &copy; 2026 EduKeep. &nbsp;·&nbsp; Questions? Chat with EdWin 🍎 →</p>
+</footer>
+
+<!-- ══════════════════════════════════
+     AI CHAT WIDGET
+══════════════════════════════════ -->
+<div id="chat-bubble">
+  <div id="chat-window">
+    <div class="chat-header">
+      <div class="chat-avatar">
+        <svg width="24" height="24" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 7 Q20 3 24 4" stroke="rgba(255,255,255,0.8)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <path d="M17 9 C10 9 6 14 6 20 C6 26.5 10.5 31 15 31 C16.2 31 17.2 30.5 17 30.5 C16.8 30.5 17.8 31 19 31 C23.5 31 28 26.5 28 20 C28 14 24 9 17 9 Z" fill="rgba(255,255,255,0.9)"/>
+          <path d="M18.5 9 C18.5 9 22 6 25 8 C22 8.5 19.5 11 18.5 9 Z" fill="#F5A623"/>
+          <text x="17" y="24" font-family="serif" font-size="11" font-weight="900" fill="#F5A623" text-anchor="middle">$</text>
+        </svg>
+      </div>
+      <div class="chat-header-text">
+        <div class="name">EdWin 🍎</div>
+        <div class="status">EduKeep's AI assistant</div>
+      </div>
+    </div>
+
+    <div id="chat-messages">
+      <div class="msg bot">Hey there! 👋 I'm EdWin, EduKeep's assistant. I can answer questions about how we work, our fees, getting paid, what you can sell, and how we compare to TPT. Tap a question below or just ask away!</div>
+    </div>
+
+    <div class="chat-suggestions" id="suggestions">
+      <button class="suggestion-btn" onclick="askSuggestion('How does the 93% payout work?')">How does 93% work?</button>
+      <button class="suggestion-btn" onclick="askSuggestion('What can I sell on EduKeep?')">What can I sell?</button>
+      <button class="suggestion-btn" onclick="askSuggestion('How does EduKeep compare to TPT?')">vs TPT?</button>
+      <button class="suggestion-btn" onclick="askSuggestion('How do I get paid?')">How do I get paid?</button>
+      <button class="suggestion-btn" onclick="askSuggestion('Can I sell resources I already sell on TPT?')">Can I sell on both?</button>
+      <button class="suggestion-btn" onclick="askSuggestion('When does EduKeep launch?')">When do you launch?</button>
+    </div>
+
+    <div class="chat-input-row">
+      <input type="text" id="chat-input" placeholder="Ask a question..." onkeydown="if(event.key==='Enter') sendChat()" />
+      <button id="chat-send" onclick="sendChat()">➤</button>
+    </div>
+  </div>
+
+  <!-- Toggle button — original emoji apple -->
+  <button id="chat-toggle" onclick="toggleChat()" title="Chat with EdWin — EduKeep's Assistant" aria-label="Open chat" style="font-size:1.8rem;">
+    🍎
+  </button>
+</div>
+
+<script>
+  // ── Kit form submit via Netlify function ──
+  function handleSubmit(e, msgId) {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.querySelector('input[type="email"]').value.trim();
+    if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
+
+    fetch('/.netlify/functions/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: 'email_address=' + encodeURIComponent(email)
+    })
+    .then(() => {
+      document.getElementById(msgId).style.display = 'block';
+      form.querySelector('input[type="email"]').value = '';
+      form.querySelector('input[type="email"]').disabled = true;
+    })
+    .catch(() => {
+      document.getElementById(msgId).style.display = 'block';
+      form.querySelector('input[type="email"]').value = '';
+      form.querySelector('input[type="email"]').disabled = true;
+    });
+  }
+
+  // ── Waitlist (legacy fallback) ──
+  function submitWaitlist(inputId, msgId) {
+    const val = document.getElementById(inputId).value.trim();
+    if (!val || !val.includes('@')) { alert('Please enter a valid email.'); return; }
+    const msg = document.getElementById(msgId);
+    msg.style.display = 'block';
+    document.getElementById(inputId).value = '';
+    document.getElementById(inputId).disabled = true;
+  }
+
+  // ── Pricing Calculator ──
+  function calcUpdate() {
+    const earnInput = document.getElementById('earn-input');
+    const slider = document.getElementById('earn-slider');
+    const volumeSlider = document.getElementById('volume-slider');
+
+    let earn = parseFloat(earnInput.value) || 0;
+    earn = Math.max(0.50, earn);
+    slider.value = Math.min(earn, 100);
+
+    // Formula: listing = earn / 0.93
+    const listing = earn / 0.93;
+    const stripeFee = listing * 0.029 + 0.30;
+    const eduFee = listing * 0.07 - stripeFee;
+    const teacherActual = listing - stripeFee - Math.max(eduFee, 0);
+
+    // TPT comparisons based on listing price
+    const tptFree = listing * 0.55;
+    const tptPremium = listing * 0.80;
+
+    document.getElementById('listing-price').textContent = '$' + listing.toFixed(2);
+    document.getElementById('teacher-take').textContent = '$' + earn.toFixed(2);
+    document.getElementById('stripe-fee').textContent = '~$' + stripeFee.toFixed(2);
+    document.getElementById('edu-fee').textContent = '~$' + Math.max(eduFee, 0).toFixed(2);
+    document.getElementById('tpt-free').textContent = '$' + tptFree.toFixed(2);
+    document.getElementById('tpt-premium').textContent = '$' + tptPremium.toFixed(2);
+    document.getElementById('edu-win').textContent = '$' + earn.toFixed(2);
+
+    // Monthly calc
+    const volume = parseInt(volumeSlider.value) || 10;
+    document.getElementById('monthly-count').textContent = volume;
+    const monthlyEarn = earn * volume;
+    const monthlyTpt = tptPremium * volume;
+    const monthlyDiff = monthlyEarn - monthlyTpt;
+    document.getElementById('monthly-earn').textContent = '$' + monthlyEarn.toFixed(2);
+    document.getElementById('monthly-tpt').textContent = '$' + monthlyTpt.toFixed(2);
+    document.getElementById('monthly-diff').textContent = '$' + Math.max(monthlyDiff, 0).toFixed(2);
+  }
+
+  function sliderUpdate() {
+    const slider = document.getElementById('earn-slider');
+    document.getElementById('earn-input').value = parseFloat(slider.value).toFixed(2);
+    calcUpdate();
+  }
+
+  // Init calculator
+  calcUpdate();
+
+
+  const faqs = [
+    {
+      keys: ['93', 'percent', 'how much', 'payout', 'how does it work', 'work'],
+      answer: `Great question! When you list a resource, you tell us what you want to earn. We automatically set the listing price a little higher to cover payment processing — so you walk away with exactly 93% of your asking price every time. 🍎\n\nYou never have to do the math. Just enter what you want in your pocket and we handle the rest.`
+    },
+    {
+      keys: ['cost', 'join', 'sign up', 'fee', '$36', '36', 'membership', 'subscription', 'annual', 'pay to join', 'one time', 'once'],
+      answer: `Just $36 — one time, forever. 🎉 No annual renewals, no monthly fees, no surprises. Pay once and sell for life.\n\nCompare that to TPT Premium which costs $59.95 every single year. After just 2 years on TPT you've already spent more than you'd ever spend on EduKeep.`
+    },
+    {
+      keys: ['tpt', 'teachers pay teachers', 'compare', 'difference', 'better', 'versus', 'vs'],
+      answer: `Here's the honest comparison:\n\n• TPT Free: you keep 55%, they take 45%\n• TPT Premium: you keep 80%, costs $59.95/year\n• EduKeep: you keep 93%, costs $36 ONE TIME\n\nA teacher selling $200/month earns ~$260 more per year on EduKeep than TPT Premium — and never pays another fee after the first $36. It's not even close.`
+    },
+    {
+      keys: ['sell', 'what can', 'resource', 'worksheet', 'lesson', 'pdf', 'download', 'list', 'upload'],
+      answer: `Right now you can sell any digital download teachers create — PDFs, worksheets, lesson plans, unit guides, activities, assessments, and more. 📚\n\nComing soon: interactive web-based classroom tools (Phase 2) and video courses (Phase 3). If you made it and teachers can use it, you can sell it here.`
+    },
+    {
+      keys: ['paid', 'payment', 'payout', 'money', 'bank', 'stripe', 'transfer', 'deposit', 'fast', 'how long'],
+      answer: `Payouts go straight to your bank account through Stripe Connect — the same secure system used by major marketplaces like Shopify and Etsy. 💰\n\nTypically 2-3 business days after a sale. No minimum threshold — the moment you make a sale, that money is on its way to you.`
+    },
+    {
+      keys: ['rights', 'own', 'ownership', 'copyright', 'mine', 'both', 'simultaneously', 'other platform', 'tpt and'],
+      answer: `Your work is 100% yours — always. EduKeep never claims any ownership of your resources. You keep full rights and can sell the same materials on TPT, your own website, anywhere else you want. 👏\n\nWe believe teachers should control their own work. Full stop.`
+    },
+    {
+      keys: ['launch', 'when', 'open', 'live', 'available', 'start', 'ready', 'release'],
+      answer: `We're in pre-launch right now, building the platform and gathering our founding seller community. Join the waitlist on this page to be the first to know when we go live! 🚀\n\nFounding sellers who join the waitlist lock in the $36 one-time rate. We can't promise this price forever, so earlier is better.`
+    },
+    {
+      keys: ['waitlist', 'founding', 'early access', 'what happens', 'next', 'after sign up', 'after i sign'],
+      answer: `Once you join the waitlist you'll get an email the moment EduKeep launches with everything you need — account setup, Stripe Connect for payouts, and listing your first resource. 📬\n\nFounding sellers also lock in the $36 one-time rate and get priority support as we roll out.`
+    },
+    {
+      keys: ['buy', 'buyer', 'purchase', 'how to buy', 'preview', 'link', 'download link'],
+      answer: `Buyers can browse the storefront and preview the first 1-2 pages of any resource for free. When they're ready, they checkout securely through Stripe. 🛒\n\nAfter purchase they get a secure one-time download link via email — valid for 48 hours with up to 3 downloads. Files are never shared publicly.`
+    },
+    {
+      keys: ['secure', 'safe', 'trust', 'protect', 'privacy', 'data', 'hack'],
+      answer: `Security is built into everything. All payments go through Stripe — the gold standard for online payments used by millions of businesses worldwide. Files are stored securely and delivered via time-limited links, never exposed publicly. 🔒\n\nYour data and your buyers' data are never sold or shared.`
+    },
+    {
+      keys: ['who', 'built', 'made', 'founder', 'team', 'about', 'created'],
+      answer: `EduKeep was built by a teacher who got tired of watching nearly half their sales disappear into TPT's pocket. This platform exists for one reason: teachers work hard and deserve to keep what they earn. 🍎\n\nEvery decision — the 93% payout, the $36 one-time fee, the no-tricks policy — comes from that same place.`
+    },
+    {
+      keys: ['minimum', 'lowest price', 'cheap', 'free resource', 'how much sell', 'price my'],
+      answer: `You can price your resources at whatever feels right! We recommend a minimum of $2 per resource so payment processing fees don't eat too deeply into very low-priced items. 💡\n\nUse the earnings calculator on this page to see exactly what you'd take home at any price point.`
+    },
+    {
+      keys: ['how many', 'unlimited', 'limit', 'listings', 'resources listed', 'number of'],
+      answer: `Unlimited! List as many resources as you want with no extra fees. Whether you have 1 resource or 1,000, your cost is the same $36 one-time fee. 🎯\n\nThe more you list, the more you earn — and 93% of all of it comes back to you.`
+    },
+    {
+      keys: ['hi', 'hello', 'hey', 'howdy', 'good morning', 'good afternoon', 'sup', 'what can you'],
+      answer: `Hey there! 👋 I'm EdWin, EduKeep's assistant. I can answer questions about how EduKeep works, our fees, getting paid, what you can sell, and how we compare to TPT.\n\nWhat would you like to know?`
+    }
+  ];
+
+  const fallback = `That's a great question — and I want to make sure you get the right answer! Our team would love to help with that one. 🍎\n\nJoin the waitlist on this page and we'll be in touch directly. In the meantime try asking me things like:\n• "How does 93% work?"\n• "What can I sell?"\n• "How do I get paid?"\n• "How does EduKeep compare to TPT?"`;
+
+  function getAnswer(input) {
+    const q = input.toLowerCase();
+    for (const faq of faqs) {
+      if (faq.keys.some(k => q.includes(k))) return faq.answer;
+    }
+    return fallback;
+  }
+
+  function toggleChat() {
+    chatOpen = !chatOpen;
+    document.getElementById('chat-window').classList.toggle('open', chatOpen);
+    if (chatOpen) document.getElementById('chat-input').focus();
+  }
+
+  function askSuggestion(text) {
+    document.getElementById('suggestions').style.display = 'none';
+    addMessage(text, 'user');
+    setTimeout(() => respondFAQ(text), 400);
+  }
+
+  function sendChat() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    document.getElementById('suggestions').style.display = 'none';
+    addMessage(text, 'user');
+    setTimeout(() => respondFAQ(text), 400);
+  }
+
+  function respondFAQ(text) {
+    showTyping();
+    setTimeout(() => {
+      removeTyping();
+      addMessage(getAnswer(text), 'bot');
+    }, 600);
+  }
+
+  function addMessage(text, role) {
+    const msgs = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = 'msg ' + (role === 'user' ? 'user' : 'bot');
+    div.style.whiteSpace = 'pre-line';
+    div.textContent = text;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function showTyping() {
+    const msgs = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = 'msg typing';
+    div.id = 'typing-indicator';
+    div.textContent = 'Typing...';
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function removeTyping() {
+    const t = document.getElementById('typing-indicator');
+    if (t) t.remove();
+  }
+
+  let chatOpen = false;
+</script>
+</body>
+</html>

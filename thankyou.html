@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduKeep — You're In!</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@400;500;600&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #2D7A4F;
+      --green-dark: #1A4D30;
+      --green-light: #E8F5EE;
+      --green-mid: #4CAF80;
+      --gold: #F5A623;
+      --chalk: #FAFAF7;
+      --ink: #1A1A1A;
+      --ink-soft: #555;
+      --border: #E0E0DA;
+      --white: #fff;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--chalk);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 40px;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-wordmark {
+      font-family: 'Fraunces', serif;
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: var(--green);
+      letter-spacing: -0.5px;
+    }
+    .nav-wordmark span { color: var(--gold); }
+
+    /* MAIN */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 52px 44px;
+      max-width: 560px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.07);
+    }
+
+    .apple {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      display: block;
+      animation: bounce 0.6s ease;
+    }
+
+    @keyframes bounce {
+      0%   { transform: scale(0.5); opacity: 0; }
+      70%  { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--green-light);
+      color: var(--green);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--green);
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    h1 span { color: var(--gold); }
+
+    .tagline {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--ink-soft);
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 28px 0;
+    }
+
+    .what-next {
+      text-align: left;
+      margin-bottom: 32px;
+    }
+    .what-next h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--ink);
+    }
+    .next-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .next-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--green-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .next-text strong {
+      display: block;
+      font-size: 0.92rem;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+    .next-text span {
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+    }
+
+    .payout-strip {
+      background: var(--green-dark);
+      border-radius: 12px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .payout-strip .num {
+      font-family: 'Fraunces', serif;
+      font-size: 2.6rem;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .payout-strip .lbl { text-align: left; }
+    .payout-strip .lbl strong {
+      display: block;
+      color: #fff;
+      font-size: 0.95rem;
+      margin-bottom: 2px;
+    }
+    .payout-strip .lbl span {
+      color: rgba(255,255,255,0.65);
+      font-size: 0.82rem;
+    }
+
+    .back-link {
+      display: inline-block;
+      color: var(--green);
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 10px 20px;
+      border: 1.5px solid var(--green);
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .back-link:hover {
+      background: var(--green);
+      color: #fff;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #111;
+      text-align: center;
+      padding: 20px 24px;
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .footer-wordmark {
+      font-family: 'Fraunces', serif;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--green-mid);
+    }
+    .footer-wordmark span { color: var(--gold); }
+    footer p { font-size: 0.78rem; color: #555; }
+
+    @media (max-width: 600px) {
+      nav { padding: 12px 16px; }
+      .card { padding: 36px 24px; }
+      h1 { font-size: 1.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg width="34" height="34" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 7 Q20 3 24 4" stroke="#2D7A4F" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M17 9 C10 9 6 14 6 20 C6 26.5 10.5 31 15 31 C16.2 31 17.2 30.5 17 30.5 C16.8 30.5 17.8 31 19 31 C23.5 31 28 26.5 28 20 C28 14 24 9 17 9 Z" fill="#2D7A4F"/>
+      <ellipse cx="12" cy="16" rx="2.5" ry="3.5" fill="rgba(255,255,255,0.22)" transform="rotate(-15 12 16)"/>
+      <path d="M18.5 9 C18.5 9 22 6 25 8 C22 8.5 19.5 11 18.5 9 Z" fill="#F5A623"/>
+      <text x="17" y="24" font-family="'Fraunces',serif" font-size="11" font-weight="900" fill="#F5A623" text-anchor="middle">$</text>
+    </svg>
+    <span class="nav-wordmark">Edu<span>Keep</span></span>
+  </a>
+</nav>
+
+<main>
+  <div class="card">
+    <span class="apple">🍎</span>
+    <div class="badge">✅ You're on the list!</div>
+
+    <h1><span style="color:var(--ink);">Welcome to the</span> Edu<span>Keep</span> <span style="color:var(--ink);">family!</span></h1>
+    <p class="tagline">"You already work hard for your money...<br>You should keep it."</p>
+
+    <div class="payout-strip">
+      <div class="num">93%</div>
+      <div class="lbl">
+        <strong>Every sale. Yours to keep.</strong>
+        <span>One-time $36 to join. Then $0 forever.</span>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="what-next">
+      <h3>What happens next:</h3>
+      <div class="next-item">
+        <div class="next-icon">📬</div>
+        <div class="next-text">
+          <strong>Check your email</strong>
+          <span>You'll get a confirmation from hello@edukeep.net — click to confirm your spot.</span>
+        </div>
+      </div>
+      <div class="next-item">
+        <div class="next-icon">🚀</div>
+        <div class="next-text">
+          <strong>We'll email you at launch</strong>
+          <span>Founding sellers get first access and lock in the $36 one-time rate.</span>
+        </div>
+      </div>
+      <div class="next-item">
+        <div class="next-icon">💰</div>
+        <div class="next-text">
+          <strong>Start earning 93%</strong>
+          <span>Upload your resources, set your price, and keep what's yours.</span>
+        </div>
+      </div>
+    </div>
+
+    <a href="index.html" class="back-link">← Back to EduKeep</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-logo">
+    <svg width="22" height="22" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 7 Q20 3 24 4" stroke="#4CAF80" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M17 9 C10 9 6 14 6 20 C6 26.5 10.5 31 15 31 C16.2 31 17.2 30.5 17 30.5 C16.8 30.5 17.8 31 19 31 C23.5 31 28 26.5 28 20 C28 14 24 9 17 9 Z" fill="#4CAF80"/>
+      <path d="M18.5 9 C18.5 9 22 6 25 8 C22 8.5 19.5 11 18.5 9 Z" fill="#F5A623"/>
+      <text x="17" y="24" font-family="'Fraunces',serif" font-size="11" font-weight="900" fill="#F5A623" text-anchor="middle">$</text>
+    </svg>
+    <span class="footer-wordmark">Edu<span>Keep</span></span>
+  </div>
+  <p>Built by a teacher, for teachers. &copy; 2026 EduKeep.</p>
+</footer>
+
+</body>
+</html>
