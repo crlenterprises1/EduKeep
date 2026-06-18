@@ -512,39 +512,30 @@
     #chat-window.open { display: flex; }
 
     .chat-header {
-      background: var(--green-light);
-      color: var(--ink);
+      background: var(--green);
+      color: #fff;
       padding: 14px 18px;
       display: flex;
       align-items: center;
       gap: 11px;
-      border-bottom: 1px solid var(--border);
     }
     .chat-avatar {
       width: 42px; height: 42px;
-      background: transparent;
+      background: var(--green-light);
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      overflow: visible;
+      overflow: hidden;
     }
     #chat-apple {
       display: block;
       transform-origin: center bottom;
     }
-    #chat-apple.bounce {
-      animation: edwin-bounce 0.8s ease;
-    }
-    #chat-apple.wiggle {
-      animation: edwin-wiggle 0.7s ease;
-    }
-    #chat-apple.spin {
-      animation: edwin-spin 0.8s ease;
-    }
-    #chat-apple.roll {
-      animation: edwin-roll 0.9s ease;
-    }
-    .chat-header-text .name { font-weight: 700; font-size: 0.95rem; color: var(--green); }
-    .chat-header-text .status { font-size: 0.73rem; color: var(--ink-soft); }
+    #chat-apple.bounce { animation: edwin-bounce 0.8s ease; }
+    #chat-apple.wiggle { animation: edwin-wiggle 0.7s ease; }
+    #chat-apple.spin   { animation: edwin-spin 0.8s ease; }
+    #chat-apple.roll   { animation: edwin-roll 0.9s ease; }
+    .chat-header-text .name { font-weight: 600; font-size: 0.95rem; }
+    .chat-header-text .status { font-size: 0.73rem; opacity: 0.75; }
 
     #chat-messages {
       flex: 1;
@@ -1205,6 +1196,8 @@
     }
     return fallback;
   }
+
+  let chatOpen = false;
 
   function toggleChat() {
     chatOpen = !chatOpen;
