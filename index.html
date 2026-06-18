@@ -408,46 +408,185 @@
       100% { transform: scale(1) rotate(0deg); }
     }
     @keyframes edwin-bounce {
-      0%   { transform: translateY(0) scaleX(1) scaleY(1); }
-      25%  { transform: translateY(-28px) scaleX(0.9) scaleY(1.1); }
+      0%,100% { transform: translateY(0) scaleX(1) scaleY(1); }
+      25%  { transform: translateY(-22px) scaleX(0.9) scaleY(1.1); }
       50%  { transform: translateY(0) scaleX(1.25) scaleY(0.75); }
-      65%  { transform: translateY(-14px) scaleX(0.95) scaleY(1.05); }
+      65%  { transform: translateY(-10px) scaleX(0.95) scaleY(1.05); }
       80%  { transform: translateY(0) scaleX(1.1) scaleY(0.95); }
-      90%  { transform: translateY(-5px); }
-      100% { transform: translateY(0) scaleX(1) scaleY(1); }
-    }
-    @keyframes edwin-roll {
-      0%   { transform: translateX(0) rotate(0deg); opacity: 1; }
-      35%  { transform: translateX(52px) rotate(200deg); opacity: 0; }
-      65%  { transform: translateX(-52px) rotate(-200deg); opacity: 0; }
-      100% { transform: translateX(0) rotate(0deg); opacity: 1; }
+      90%  { transform: translateY(-4px); }
     }
     @keyframes edwin-wiggle {
-      0%   { transform: rotate(0deg); }
+      0%,100% { transform: rotate(0deg); }
       15%  { transform: rotate(-15deg) scale(1.15); }
       30%  { transform: rotate(15deg) scale(1.15); }
       45%  { transform: rotate(-10deg); }
       60%  { transform: rotate(10deg); }
       75%  { transform: rotate(-5deg); }
       90%  { transform: rotate(5deg); }
-      100% { transform: rotate(0deg); }
     }
     @keyframes edwin-spin {
-      0%   { transform: rotate(0deg) scale(1); }
-      50%  { transform: rotate(360deg) scale(1.2); }
-      100% { transform: rotate(720deg) scale(1); }
+      0%   { transform: rotate(0deg); }
+      100% { transform: rotate(2160deg); }
     }
-    /* Flip on Y axis — like turning a coin */
+    @keyframes edwin-roll {
+      0%   { transform: translateX(0) rotate(0deg); opacity:1; }
+      14%  { transform: translateX(52px) rotate(240deg); opacity:1; }
+      15%  { transform: translateX(52px) rotate(240deg); opacity:0; }
+      16%  { transform: translateX(-52px) rotate(240deg); opacity:0; }
+      17%  { transform: translateX(-52px) rotate(240deg); opacity:1; }
+      32%  { transform: translateX(0) rotate(480deg); opacity:1; }
+      47%  { transform: translateX(52px) rotate(720deg); opacity:1; }
+      48%  { transform: translateX(52px) rotate(720deg); opacity:0; }
+      49%  { transform: translateX(-52px) rotate(720deg); opacity:0; }
+      50%  { transform: translateX(-52px) rotate(720deg); opacity:1; }
+      65%  { transform: translateX(0) rotate(960deg); opacity:1; }
+      80%  { transform: translateX(52px) rotate(1200deg); opacity:1; }
+      81%  { transform: translateX(52px) rotate(1200deg); opacity:0; }
+      82%  { transform: translateX(-52px) rotate(1200deg); opacity:0; }
+      83%  { transform: translateX(-52px) rotate(1200deg); opacity:1; }
+      100% { transform: translateX(0) rotate(1440deg); opacity:1; }
+    }
     @keyframes edwin-flip-y {
       0%   { transform: perspective(200px) rotateY(0deg); }
-      50%  { transform: perspective(200px) rotateY(180deg) scale(1.15); }
-      100% { transform: perspective(200px) rotateY(360deg); }
+      100% { transform: perspective(200px) rotateY(1440deg); }
     }
-    /* Spin on Z axis — like a top */
-    @keyframes edwin-flip-z {
-      0%   { transform: perspective(200px) rotateZ(0deg); }
-      40%  { transform: perspective(200px) rotateZ(180deg) scale(1.2); }
-      100% { transform: perspective(200px) rotateZ(360deg); }
+    @keyframes edwin-flip-x {
+      0%   { transform: perspective(120px) rotateX(0deg) scale(0.05); }
+      18%  { transform: perspective(120px) rotateX(-1080deg) scale(1.0); }
+      23%  { transform: perspective(120px) rotateX(-1080deg) scale(1.5); }
+      30%  { transform: perspective(120px) rotateX(-1080deg) scale(0.85); }
+      36%  { transform: perspective(120px) rotateX(-1080deg) scale(1.12); }
+      41%  { transform: perspective(120px) rotateX(-1080deg) scale(0.95); }
+      45%  { transform: perspective(120px) rotateX(-1080deg) scale(1.03); }
+      48%  { transform: perspective(120px) rotateX(-1080deg) scale(1.0); }
+      52%  { transform: perspective(120px) rotateX(-1080deg) scale(1.0) rotate(-12deg); }
+      57%  { transform: perspective(120px) rotateX(-1080deg) scale(1.0) rotate(12deg); }
+      61%  { transform: perspective(120px) rotateX(-1080deg) scale(1.0) rotate(-6deg); }
+      65%  { transform: perspective(120px) rotateX(-1080deg) scale(1.0) rotate(4deg); }
+      70%  { transform: perspective(120px) rotateX(-1080deg) scale(1.0) rotate(0deg); }
+      75%  { transform: perspective(120px) rotateX(-1080deg) scale(1.0); }
+      87%  { transform: perspective(120px) rotateX(-720deg) scale(0.45); }
+      94%  { transform: perspective(120px) rotateX(-360deg) scale(0.2); }
+      100% { transform: perspective(120px) rotateX(0deg) scale(0.05); }
+    }
+    @keyframes edwin-fall {
+      0%   { transform: translateY(-90px) scaleX(1) scaleY(1); opacity:0; }
+      10%  { transform: translateY(0) scaleX(1) scaleY(1); opacity:1; }
+      13%  { transform: translateY(0) scaleX(1.35) scaleY(0.65); opacity:1; }
+      16%  { transform: translateY(0) scaleX(0.88) scaleY(1.12); opacity:1; }
+      19%  { transform: translateY(0) scaleX(1) scaleY(1); opacity:1; }
+      62%  { transform: translateY(0) scaleX(1) scaleY(1); opacity:1; }
+      72%  { transform: translateY(-16px) scaleX(0.94) scaleY(1.06); opacity:1; }
+      78%  { transform: translateY(0) scaleX(1) scaleY(1); opacity:1; }
+      100% { transform: translateY(90px) scaleX(1) scaleY(1); opacity:0; }
+    }
+    @keyframes edwin-peek {
+      0%   { transform: translateX(52px); opacity:1; }
+      25%  { transform: translateX(24px); opacity:1; }
+      35%  { transform: translateX(24px); opacity:1; }
+      39%  { transform: translateX(18px); opacity:1; }
+      43%  { transform: translateX(24px); opacity:1; }
+      47%  { transform: translateX(24px); opacity:1; }
+      51%  { transform: translateX(18px); opacity:1; }
+      55%  { transform: translateX(24px); opacity:1; }
+      60%  { transform: translateX(52px); opacity:1; }
+      80%  { transform: translateX(52px); opacity:1; }
+      85%  { transform: translateX(24px); opacity:1; }
+      100% { transform: translateX(24px); opacity:1; }
+    }
+    @keyframes edwin-squash {
+      0%,100% { transform: scaleX(1) scaleY(1); }
+      20%  { transform: scaleX(1.6) scaleY(0.4); }
+      35%  { transform: scaleX(0.7) scaleY(1.5); }
+      50%  { transform: scaleX(1.2) scaleY(0.85); }
+      65%  { transform: scaleX(0.9) scaleY(1.1); }
+      80%  { transform: scaleX(1.05) scaleY(0.97); }
+    }
+    @keyframes edwin-tremble {
+      0%,100% { transform: translate(0,0) rotate(0deg); }
+      10%  { transform: translate(-3px,-2px) rotate(-2deg); }
+      20%  { transform: translate(3px,2px) rotate(2deg); }
+      30%  { transform: translate(-3px,2px) rotate(-1deg); }
+      40%  { transform: translate(3px,-2px) rotate(1deg); }
+      50%  { transform: translate(-2px,-3px) rotate(-2deg); }
+      60%  { transform: translate(2px,3px) rotate(2deg); }
+      70%  { transform: translate(-3px,2px) rotate(-1deg); }
+      80%  { transform: translate(3px,-1px) rotate(1deg); }
+      90%  { transform: translate(-1px,2px) rotate(-1deg); }
+    }
+    @keyframes edwin-heartbeat {
+      0%,100% { transform: scale(1); }
+      10%  { transform: scale(1.3); }
+      20%  { transform: scale(1.0); }
+      30%  { transform: scale(1.2); }
+      40%  { transform: scale(1.0); }
+    }
+    @keyframes edwin-shy {
+      0%   { transform: scale(1); }
+      30%  { transform: scale(0.3); }
+      50%  { transform: scale(0.3); }
+      70%  { transform: scale(1.2); }
+      82%  { transform: scale(0.9); }
+      92%  { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    @keyframes edwin-dizzy {
+      0%,100% { transform: translate(0,0) rotate(0deg); }
+      20%  { transform: translate(7px,-5px) rotate(10deg); }
+      40%  { transform: translate(7px,5px) rotate(-5deg); }
+      60%  { transform: translate(-7px,5px) rotate(-10deg); }
+      80%  { transform: translate(-7px,-5px) rotate(5deg); }
+    }
+    @keyframes edwin-nod {
+      0%,100% { transform: translateY(0); }
+      15%  { transform: translateY(-10px); }
+      30%  { transform: translateY(0); }
+      45%  { transform: translateY(-10px); }
+      60%  { transform: translateY(0); }
+      75%  { transform: translateY(-8px); }
+      90%  { transform: translateY(0); }
+    }
+    @keyframes edwin-warp {
+      0%   { transform: scaleX(0.05) scaleY(1); opacity:0; }
+      15%  { transform: scaleX(2.5) scaleY(0.3); opacity:1; }
+      25%  { transform: scaleX(0.8) scaleY(1.2); opacity:1; }
+      35%  { transform: scaleX(1.1) scaleY(0.95); opacity:1; }
+      45%  { transform: scaleX(1) scaleY(1); opacity:1; }
+      75%  { transform: scaleX(1) scaleY(1); opacity:1; }
+      85%  { transform: scaleX(2.5) scaleY(0.3); opacity:1; }
+      100% { transform: scaleX(0.05) scaleY(1); opacity:0; }
+    }
+    @keyframes edwin-pop {
+      0%   { transform: scale(0); }
+      50%  { transform: scale(1.5); }
+      65%  { transform: scale(0.85); }
+      78%  { transform: scale(1.12); }
+      88%  { transform: scale(0.95); }
+      95%  { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+    @keyframes edwin-orbit {
+      0%   { transform: translate(0,0); }
+      12%  { transform: translate(12px,-8px); }
+      25%  { transform: translate(16px,0); }
+      37%  { transform: translate(12px,8px); }
+      50%  { transform: translate(0,12px); }
+      62%  { transform: translate(-12px,8px); }
+      75%  { transform: translate(-16px,0); }
+      87%  { transform: translate(-12px,-8px); }
+      100% { transform: translate(0,0); }
+    }
+    @keyframes edwin-shakeno {
+      0%,100% { transform: translateX(0); }
+      10%  { transform: translateX(-11px); }
+      20%  { transform: translateX(11px); }
+      30%  { transform: translateX(-11px); }
+      40%  { transform: translateX(11px); }
+      50%  { transform: translateX(-8px); }
+      60%  { transform: translateX(8px); }
+      70%  { transform: translateX(-5px); }
+      80%  { transform: translateX(5px); }
+      90%  { transform: translateX(-2px); }
     }
     @keyframes edwin-pulse {
       0%   { box-shadow: 0 4px 24px rgba(45,122,79,0.45), 0 0 0 0 rgba(245,166,35,0.6); }
@@ -478,7 +617,7 @@
       display: block;
       animation: edwin-entrance 0.8s ease 1s both;
     }
-    #edwin-apple.wiggle { animation: edwin-wiggle 0.7s ease; }
+    #edwin-apple.wiggle { animation: edwin-wiggle 0.8s ease; }
 
     /* Speech bubble tooltip */
     #chat-tooltip {
@@ -542,12 +681,24 @@
       display: block;
       transform-origin: center bottom;
     }
-    #chat-apple.bounce  { animation: edwin-bounce 0.8s ease; }
-    #chat-apple.wiggle  { animation: edwin-wiggle 0.7s ease; }
-    #chat-apple.spin    { animation: edwin-spin 0.8s ease; }
-    #chat-apple.roll    { animation: edwin-roll 0.9s ease; }
-    #chat-apple.flip-y  { animation: edwin-flip-y 0.8s ease; }
-    #chat-apple.flip-z  { animation: edwin-flip-z 0.8s ease; }
+    #chat-apple.bounce    { animation: edwin-bounce    1.0s ease; }
+    #chat-apple.wiggle    { animation: edwin-wiggle    0.8s ease; }
+    #chat-apple.spin      { animation: edwin-spin      2.8s cubic-bezier(0.0,0.0,0.1,1.0); }
+    #chat-apple.roll      { animation: edwin-roll      2.0s linear; }
+    #chat-apple.flip-y    { animation: edwin-flip-y    2.0s ease-in-out; }
+    #chat-apple.flip-x    { animation: edwin-flip-x    3.2s linear; }
+    #chat-apple.fall      { animation: edwin-fall      2.6s ease; }
+    #chat-apple.peek      { animation: edwin-peek      3.2s ease forwards; }
+    #chat-apple.squash    { animation: edwin-squash    0.9s ease; }
+    #chat-apple.tremble   { animation: edwin-tremble   0.9s linear; }
+    #chat-apple.heartbeat { animation: edwin-heartbeat 1.4s ease-in-out 3; }
+    #chat-apple.shy       { animation: edwin-shy       1.8s ease; }
+    #chat-apple.dizzy     { animation: edwin-dizzy     1.6s ease-in-out 2; }
+    #chat-apple.nod       { animation: edwin-nod       1.2s ease; }
+    #chat-apple.warp      { animation: edwin-warp      1.6s ease; }
+    #chat-apple.pop       { animation: edwin-pop       0.9s cubic-bezier(0.2,0.8,0.3,1); }
+    #chat-apple.orbit     { animation: edwin-orbit     1.8s linear 2; }
+    #chat-apple.shakeno   { animation: edwin-shakeno   0.9s ease; }
     .chat-header-text .name { font-weight: 600; font-size: 0.95rem; }
     .chat-header-text .status { font-size: 0.73rem; opacity: 0.75; }
 
@@ -1269,11 +1420,118 @@
     if (t) t.remove();
   }
 
-  // ── EdWin Chat Header Animations ──
-  const tricks = ['bounce', 'wiggle', 'spin', 'flip-y', 'roll', 'wiggle', 'bounce', 'flip-z', 'spin', 'flip-y'];
-  let trickIndex = 0;
+  // ── EdWin Trick Engine ──
+  const ALL_TRICKS = ['bounce','wiggle','spin','roll','flip-y','flip-x','fall','peek',
+                      'squash','tremble','heartbeat','shy','dizzy','nod','warp','pop','orbit','shakeno'];
+  const DURATIONS = {
+    bounce:1100, wiggle:900, spin:2900, roll:2100,
+    'flip-y':2100, 'flip-x':3300, fall:2700, peek:3400,
+    squash:1000, tremble:1000, heartbeat:4300, shy:1900,
+    dizzy:3300, nod:1300, warp:1700, pop:1000, orbit:3700, shakeno:1000
+  };
 
-  const messages = [
+  let trickBusy = false;
+
+  function playTrick(trick) {
+    const apple = document.getElementById('chat-apple');
+    if (!apple || trickBusy) return;
+    trickBusy = true;
+    apple.classList.remove(...ALL_TRICKS);
+    apple.style.transform = '';
+    apple.style.opacity = '';
+    void apple.offsetWidth;
+    apple.classList.add(trick);
+    const dur = DURATIONS[trick] || 1200;
+    setTimeout(() => {
+      apple.classList.remove(trick);
+      if (trick === 'peek') {
+        apple.style.transition = 'none';
+        apple.style.transform = 'translateX(24px)';
+        setTimeout(() => {
+          apple.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+          apple.style.transform = 'translateX(52px)';
+          apple.style.opacity = '0';
+          setTimeout(() => {
+            apple.style.transition = '';
+            apple.style.transform = '';
+            apple.style.opacity = '';
+            trickBusy = false;
+          }, 2500);
+        }, 30);
+      } else {
+        trickBusy = false;
+      }
+    }, dur);
+  }
+
+  // ── Trigger mapping ──
+  // Chat opens → pop
+  const _origToggle = toggleChat;
+  function toggleChat() {
+    const wasOpen = chatOpen;
+    chatOpen = !chatOpen;
+    document.getElementById('chat-window').classList.toggle('open', chatOpen);
+    document.getElementById('chat-tooltip').style.display = 'none';
+    if (chatOpen) {
+      document.getElementById('chat-input').focus();
+      setTimeout(() => playTrick('pop'), 100);
+    }
+  }
+
+  // User sends message → spin (thinking)
+  const _origAskSuggestion = askSuggestion;
+  function askSuggestion(text) {
+    document.getElementById('suggestions').style.display = 'none';
+    addMessage(text, 'user');
+    playTrick('spin');
+    setTimeout(() => respondFAQ(text), 400);
+  }
+
+  function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    addMessage(text, 'user');
+    playTrick('spin');
+    setTimeout(() => respondFAQ(text), 400);
+  }
+
+  // respondFAQ — pick trick based on topic after response
+  const _origRespondFAQ = respondFAQ;
+  function respondFAQ(text) {
+    showTyping();
+    const t = text.toLowerCase();
+    let trick = 'bounce'; // default: happy bounce when answer arrives
+    if (/hi|hello|hey|who are you|what are you/.test(t))        trick = 'wiggle';
+    else if (/93|percent|fee|payout|keep|earn|money|pay/.test(t)) trick = 'flip-y';
+    else if (/how.*work|how does|explain|what is/.test(t))       trick = 'roll';
+    else if (/sell|resource|product|upload|file|type/.test(t))   trick = 'warp';
+    else if (/thank|thanks|awesome|great|love|perfect/.test(t))  trick = 'shy';
+    else if (/tpt|teachers pay|compare|competition/.test(t))     trick = 'shakeno';
+    else if (/human|robot|real|ai|bot/.test(t))                  trick = 'orbit';
+    else if (/dance|trick|fun|cool|wow/.test(t))                 trick = 'flip-x';
+    else if (/when|launch|open|soon|available/.test(t))          trick = 'nod';
+    else if (/sorry|wrong|don't know|not sure|error/.test(t))    trick = 'tremble';
+    setTimeout(() => {
+      removeTyping();
+      addMessage(getAnswer(text), 'bot');
+      setTimeout(() => playTrick(trick), 200);
+    }, 600);
+  }
+
+  // ── Idle animations when chat is OPEN (every 6s) ──
+  const idleTricks = ['nod','heartbeat','squash','dizzy','orbit','bounce','wiggle'];
+  let idleIndex = 0;
+  setInterval(() => {
+    if (chatOpen && !trickBusy) {
+      playTrick(idleTricks[idleIndex % idleTricks.length]);
+      idleIndex++;
+    }
+  }, 6000);
+
+  // ── Button animations when chat is CLOSED (every 20s) ──
+  const tooltipMessages = [
     '👋 Hi! I\'m EdWin — ask me anything!',
     '🍎 How does the 93% work?',
     '💰 Keep what\'s yours — always!',
@@ -1282,46 +1540,23 @@
   ];
   let msgIndex = 0;
 
-  function doTrick() {
-    if (chatOpen) {
-      // Animate the chat header apple
-      const apple = document.getElementById('chat-apple');
-      if (apple) {
-        const trick = tricks[trickIndex % tricks.length];
-        apple.classList.remove('bounce','wiggle','spin','roll','flip-y','flip-z');
-        void apple.offsetWidth;
-        apple.classList.add(trick);
-        setTimeout(() => apple.classList.remove(trick), 900);
-        trickIndex++;
-      }
-    } else {
-      // Show tooltip on button
-      const tip = document.getElementById('chat-tooltip');
-      tip.textContent = messages[msgIndex % messages.length];
-      tip.style.display = 'block';
-      msgIndex++;
-      setTimeout(() => tip.style.display = 'none', 4000);
-      // Also animate button apple
-      const apple = document.getElementById('edwin-apple');
-      if (apple) {
-        apple.classList.remove('bounce','wiggle','spin','roll','flip-y','flip-z');
-        void apple.offsetWidth;
-        apple.classList.add('wiggle');
-        setTimeout(() => apple.classList.remove('wiggle'), 700);
-      }
+  function doButtonTrick() {
+    if (chatOpen) return;
+    const tip = document.getElementById('chat-tooltip');
+    tip.textContent = tooltipMessages[msgIndex % tooltipMessages.length];
+    tip.style.display = 'block';
+    msgIndex++;
+    setTimeout(() => tip.style.display = 'none', 4000);
+    const apple = document.getElementById('edwin-apple');
+    if (apple) {
+      apple.classList.remove('wiggle');
+      void apple.offsetWidth;
+      apple.classList.add('wiggle');
+      setTimeout(() => apple.classList.remove('wiggle'), 900);
     }
   }
-
-  // Animate chat apple every 5 seconds when chat is open
-  setInterval(() => {
-    if (chatOpen) doTrick();
-  }, 5000);
-
-  // Tooltip + wiggle every 20 seconds when chat is closed
-  setTimeout(doTrick, 8000);
-  setInterval(() => {
-    if (!chatOpen) doTrick();
-  }, 20000);
+  setTimeout(doButtonTrick, 8000);
+  setInterval(() => { if (!chatOpen) doButtonTrick(); }, 20000);
 
 
 </script>
