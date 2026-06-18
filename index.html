@@ -399,6 +399,34 @@
       right: 28px;
       z-index: 999;
     }
+
+    /* Initial bounce on load */
+    @keyframes edwin-entrance {
+      0%   { transform: scale(0) rotate(-10deg); opacity: 0; }
+      60%  { transform: scale(1.15) rotate(5deg); opacity: 1; }
+      80%  { transform: scale(0.95) rotate(-3deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    /* Pulse glow */
+    @keyframes edwin-pulse {
+      0%   { box-shadow: 0 4px 24px rgba(45,122,79,0.45), 0 0 0 0 rgba(245,166,35,0.6); }
+      70%  { box-shadow: 0 4px 24px rgba(45,122,79,0.45), 0 0 0 14px rgba(245,166,35,0); }
+      100% { box-shadow: 0 4px 24px rgba(45,122,79,0.45), 0 0 0 0 rgba(245,166,35,0); }
+    }
+
+    /* Wiggle to get attention */
+    @keyframes edwin-wiggle {
+      0%   { transform: rotate(0deg); }
+      15%  { transform: rotate(-12deg) scale(1.1); }
+      30%  { transform: rotate(12deg) scale(1.1); }
+      45%  { transform: rotate(-8deg); }
+      60%  { transform: rotate(8deg); }
+      75%  { transform: rotate(-4deg); }
+      90%  { transform: rotate(4deg); }
+      100% { transform: rotate(0deg); }
+    }
+
     #chat-toggle {
       width: 62px;
       height: 62px;
@@ -412,10 +440,47 @@
       box-shadow: 0 4px 24px rgba(45,122,79,0.45);
       transition: transform 0.2s, box-shadow 0.2s;
       font-size: 0;
+      animation: edwin-entrance 0.7s ease 1s both, edwin-pulse 2s ease 2s infinite;
     }
     #chat-toggle:hover {
       transform: scale(1.07);
       box-shadow: 0 6px 28px rgba(45,122,79,0.55);
+      animation: none;
+    }
+    #chat-toggle.wiggle {
+      animation: edwin-wiggle 0.6s ease;
+    }
+
+    /* Speech bubble tooltip */
+    #chat-tooltip {
+      position: absolute;
+      bottom: 72px;
+      right: 0;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px 12px 0 12px;
+      padding: 10px 14px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--ink);
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    #chat-tooltip::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      right: 18px;
+      width: 0; height: 0;
+      border-left: 8px solid transparent;
+      border-right: 0px solid transparent;
+      border-top: 8px solid var(--white);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     #chat-window {
@@ -950,7 +1015,8 @@
     </div>
   </div>
 
-  <!-- Toggle button — original emoji apple -->
+  <!-- Chat tooltip -->
+  <div id="chat-tooltip">👋 Hi! I'm EdWin — ask me anything!</div>
   <button id="chat-toggle" onclick="toggleChat()" title="Chat with EdWin — EduKeep's Assistant" aria-label="Open chat">
     <img src="EKApple_transparent.png" width="38" height="38" alt="EdWin" style="display:block;" />
   </button>
@@ -1112,6 +1178,7 @@
   function toggleChat() {
     chatOpen = !chatOpen;
     document.getElementById('chat-window').classList.toggle('open', chatOpen);
+    document.getElementById('chat-tooltip').style.display = 'none';
     if (chatOpen) document.getElementById('chat-input').focus();
   }
 
@@ -1163,6 +1230,29 @@
     const t = document.getElementById('typing-indicator');
     if (t) t.remove();
   }
+
+  // ── EdWin Animations ──
+  setTimeout(() => {
+    if (!chatOpen) {
+      const btn = document.getElementById('chat-toggle');
+      const tip = document.getElementById('chat-tooltip');
+      btn.classList.add('wiggle');
+      tip.style.display = 'block';
+      setTimeout(() => btn.classList.remove('wiggle'), 600);
+      setTimeout(() => tip.style.display = 'none', 4000);
+    }
+  }, 8000);
+
+  setInterval(() => {
+    if (!chatOpen) {
+      const btn = document.getElementById('chat-toggle');
+      const tip = document.getElementById('chat-tooltip');
+      btn.classList.add('wiggle');
+      tip.style.display = 'block';
+      setTimeout(() => btn.classList.remove('wiggle'), 600);
+      setTimeout(() => tip.style.display = 'none', 4000);
+    }
+  }, 30000);
 
   let chatOpen = false;
 </script>
