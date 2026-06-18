@@ -437,6 +437,18 @@
       50%  { transform: rotate(360deg) scale(1.2); }
       100% { transform: rotate(720deg) scale(1); }
     }
+    /* Flip on Y axis — like turning a coin */
+    @keyframes edwin-flip-y {
+      0%   { transform: perspective(200px) rotateY(0deg); }
+      50%  { transform: perspective(200px) rotateY(180deg) scale(1.15); }
+      100% { transform: perspective(200px) rotateY(360deg); }
+    }
+    /* Spin on Z axis — like a top */
+    @keyframes edwin-flip-z {
+      0%   { transform: perspective(200px) rotateZ(0deg); }
+      40%  { transform: perspective(200px) rotateZ(180deg) scale(1.2); }
+      100% { transform: perspective(200px) rotateZ(360deg); }
+    }
     @keyframes edwin-pulse {
       0%   { box-shadow: 0 4px 24px rgba(45,122,79,0.45), 0 0 0 0 rgba(245,166,35,0.6); }
       70%  { box-shadow: 0 4px 24px rgba(45,122,79,0.45), 0 0 0 14px rgba(245,166,35,0); }
@@ -530,10 +542,12 @@
       display: block;
       transform-origin: center bottom;
     }
-    #chat-apple.bounce { animation: edwin-bounce 0.8s ease; }
-    #chat-apple.wiggle { animation: edwin-wiggle 0.7s ease; }
-    #chat-apple.spin   { animation: edwin-spin 0.8s ease; }
-    #chat-apple.roll   { animation: edwin-roll 0.9s ease; }
+    #chat-apple.bounce  { animation: edwin-bounce 0.8s ease; }
+    #chat-apple.wiggle  { animation: edwin-wiggle 0.7s ease; }
+    #chat-apple.spin    { animation: edwin-spin 0.8s ease; }
+    #chat-apple.roll    { animation: edwin-roll 0.9s ease; }
+    #chat-apple.flip-y  { animation: edwin-flip-y 0.8s ease; }
+    #chat-apple.flip-z  { animation: edwin-flip-z 0.8s ease; }
     .chat-header-text .name { font-weight: 600; font-size: 0.95rem; }
     .chat-header-text .status { font-size: 0.73rem; opacity: 0.75; }
 
@@ -1256,7 +1270,7 @@
   }
 
   // ── EdWin Chat Header Animations ──
-  const tricks = ['bounce', 'wiggle', 'spin', 'roll', 'wiggle', 'bounce'];
+  const tricks = ['bounce', 'wiggle', 'spin', 'flip-y', 'roll', 'wiggle', 'bounce', 'flip-z', 'spin', 'flip-y'];
   let trickIndex = 0;
 
   const messages = [
@@ -1274,7 +1288,7 @@
       const apple = document.getElementById('chat-apple');
       if (apple) {
         const trick = tricks[trickIndex % tricks.length];
-        apple.classList.remove('bounce','wiggle','spin','roll');
+        apple.classList.remove('bounce','wiggle','spin','roll','flip-y','flip-z');
         void apple.offsetWidth;
         apple.classList.add(trick);
         setTimeout(() => apple.classList.remove(trick), 900);
@@ -1290,7 +1304,7 @@
       // Also animate button apple
       const apple = document.getElementById('edwin-apple');
       if (apple) {
-        apple.classList.remove('bounce','wiggle','spin','roll');
+        apple.classList.remove('bounce','wiggle','spin','roll','flip-y','flip-z');
         void apple.offsetWidth;
         apple.classList.add('wiggle');
         setTimeout(() => apple.classList.remove('wiggle'), 700);
