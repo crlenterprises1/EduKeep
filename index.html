@@ -402,29 +402,49 @@
 
     /* Initial bounce on load */
     @keyframes edwin-entrance {
-      0%   { transform: scale(0) rotate(-10deg); opacity: 0; }
-      60%  { transform: scale(1.15) rotate(5deg); opacity: 1; }
-      80%  { transform: scale(0.95) rotate(-3deg); }
+      0%   { transform: scale(0) rotate(-180deg); opacity: 0; }
+      60%  { transform: scale(1.2) rotate(10deg); opacity: 1; }
+      80%  { transform: scale(0.9) rotate(-5deg); }
       100% { transform: scale(1) rotate(0deg); }
     }
-
-    /* Pulse glow */
+    @keyframes edwin-bounce {
+      0%   { transform: translateY(0) scaleX(1) scaleY(1); }
+      25%  { transform: translateY(-28px) scaleX(0.9) scaleY(1.1); }
+      50%  { transform: translateY(0) scaleX(1.25) scaleY(0.75); }
+      65%  { transform: translateY(-14px) scaleX(0.95) scaleY(1.05); }
+      80%  { transform: translateY(0) scaleX(1.1) scaleY(0.95); }
+      90%  { transform: translateY(-5px); }
+      100% { transform: translateY(0) scaleX(1) scaleY(1); }
+    }
+    @keyframes edwin-roll {
+      0%   { transform: translateX(0) rotate(0deg); opacity: 1; }
+      35%  { transform: translateX(52px) rotate(200deg); opacity: 0; }
+      65%  { transform: translateX(-52px) rotate(-200deg); opacity: 0; }
+      100% { transform: translateX(0) rotate(0deg); opacity: 1; }
+    }
+    @keyframes edwin-wiggle {
+      0%   { transform: rotate(0deg); }
+      15%  { transform: rotate(-15deg) scale(1.15); }
+      30%  { transform: rotate(15deg) scale(1.15); }
+      45%  { transform: rotate(-10deg); }
+      60%  { transform: rotate(10deg); }
+      75%  { transform: rotate(-5deg); }
+      90%  { transform: rotate(5deg); }
+      100% { transform: rotate(0deg); }
+    }
+    @keyframes edwin-spin {
+      0%   { transform: rotate(0deg) scale(1); }
+      50%  { transform: rotate(360deg) scale(1.2); }
+      100% { transform: rotate(720deg) scale(1); }
+    }
     @keyframes edwin-pulse {
       0%   { box-shadow: 0 4px 24px rgba(45,122,79,0.45), 0 0 0 0 rgba(245,166,35,0.6); }
       70%  { box-shadow: 0 4px 24px rgba(45,122,79,0.45), 0 0 0 14px rgba(245,166,35,0); }
       100% { box-shadow: 0 4px 24px rgba(45,122,79,0.45), 0 0 0 0 rgba(245,166,35,0); }
     }
-
-    /* Wiggle to get attention */
-    @keyframes edwin-wiggle {
-      0%   { transform: rotate(0deg); }
-      15%  { transform: rotate(-12deg) scale(1.1); }
-      30%  { transform: rotate(12deg) scale(1.1); }
-      45%  { transform: rotate(-8deg); }
-      60%  { transform: rotate(8deg); }
-      75%  { transform: rotate(-4deg); }
-      90%  { transform: rotate(4deg); }
-      100% { transform: rotate(0deg); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     #chat-toggle {
@@ -439,20 +459,19 @@
       justify-content: center;
       box-shadow: 0 4px 24px rgba(45,122,79,0.45);
       transition: box-shadow 0.2s;
+      animation: edwin-pulse 2s ease 3s infinite;
     }
-    #chat-toggle:hover {
-      box-shadow: 0 6px 28px rgba(45,122,79,0.55);
-    }
+    #chat-toggle:hover { box-shadow: 0 6px 28px rgba(45,122,79,0.55); }
     #edwin-apple {
       display: block;
-      animation: edwin-entrance 0.7s ease 1s both;
+      animation: edwin-entrance 0.8s ease 1s both;
     }
-    #edwin-apple.wiggle {
-      animation: edwin-wiggle 0.6s ease;
-    }
+    #edwin-apple.bounce { animation: edwin-bounce 0.8s ease; }
+    #edwin-apple.roll   { animation: edwin-roll 0.9s ease; }
+    #edwin-apple.wiggle { animation: edwin-wiggle 0.7s ease; }
+    #edwin-apple.spin   { animation: edwin-spin 0.8s ease; }
     #chat-toggle:hover #edwin-apple {
-      animation: none;
-      transform: scale(1.12);
+      transform: scale(1.15);
       transition: transform 0.2s;
     }
 
@@ -482,10 +501,6 @@
       border-left: 8px solid transparent;
       border-right: 0px solid transparent;
       border-top: 8px solid var(--white);
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to   { opacity: 1; transform: translateY(0); }
     }
 
     #chat-window {
@@ -1237,29 +1252,44 @@
   }
 
   // ── EdWin Animations ──
-  setTimeout(() => {
-    if (!chatOpen) {
-      const btn = document.getElementById('edwin-apple');
-      const tip = document.getElementById('chat-tooltip');
-      btn.classList.add('wiggle');
-      tip.style.display = 'block';
-      setTimeout(() => btn.classList.remove('wiggle'), 600);
-      setTimeout(() => tip.style.display = 'none', 4000);
-    }
-  }, 8000);
+  const tricks = ['bounce', 'wiggle', 'spin', 'roll', 'wiggle', 'bounce'];
+  let trickIndex = 0;
 
-  setInterval(() => {
-    if (!chatOpen) {
-      const btn = document.getElementById('edwin-apple');
-      const tip = document.getElementById('chat-tooltip');
-      btn.classList.add('wiggle');
-      tip.style.display = 'block';
-      setTimeout(() => btn.classList.remove('wiggle'), 600);
-      setTimeout(() => tip.style.display = 'none', 4000);
-    }
-  }, 30000);
+  const messages = [
+    '👋 Hi! I\'m EdWin — ask me anything!',
+    '🍎 How does the 93% work?',
+    '💰 Keep what\'s yours — always!',
+    '🎉 $36 once. 93% forever!',
+    '📚 What can I sell on EduKeep?'
+  ];
+  let msgIndex = 0;
 
-  let chatOpen = false;
+  function doTrick() {
+    if (chatOpen) return;
+    const apple = document.getElementById('edwin-apple');
+    const tip = document.getElementById('chat-tooltip');
+
+    // Do the trick
+    const trick = tricks[trickIndex % tricks.length];
+    apple.classList.remove('bounce','wiggle','spin','roll');
+    void apple.offsetWidth; // force reflow
+    apple.classList.add(trick);
+    setTimeout(() => apple.classList.remove(trick), 900);
+    trickIndex++;
+
+    // Show tooltip message
+    tip.textContent = messages[msgIndex % messages.length];
+    tip.style.display = 'block';
+    msgIndex++;
+    setTimeout(() => tip.style.display = 'none', 4000);
+  }
+
+  // First trick at 8 seconds
+  setTimeout(doTrick, 8000);
+  // Then every 20 seconds
+  setInterval(doTrick, 20000);
+
+
 </script>
 </body>
 </html>
