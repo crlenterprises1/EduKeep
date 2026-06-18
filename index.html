@@ -438,17 +438,22 @@
       align-items: center;
       justify-content: center;
       box-shadow: 0 4px 24px rgba(45,122,79,0.45);
-      transition: transform 0.2s, box-shadow 0.2s;
-      font-size: 0;
-      animation: edwin-entrance 0.7s ease 1s both, edwin-pulse 2s ease 2s infinite;
+      transition: box-shadow 0.2s;
     }
     #chat-toggle:hover {
-      transform: scale(1.07);
       box-shadow: 0 6px 28px rgba(45,122,79,0.55);
-      animation: none;
     }
-    #chat-toggle.wiggle {
+    #edwin-apple {
+      display: block;
+      animation: edwin-entrance 0.7s ease 1s both;
+    }
+    #edwin-apple.wiggle {
       animation: edwin-wiggle 0.6s ease;
+    }
+    #chat-toggle:hover #edwin-apple {
+      animation: none;
+      transform: scale(1.12);
+      transition: transform 0.2s;
     }
 
     /* Speech bubble tooltip */
@@ -1018,7 +1023,7 @@
   <!-- Chat tooltip -->
   <div id="chat-tooltip">👋 Hi! I'm EdWin — ask me anything!</div>
   <button id="chat-toggle" onclick="toggleChat()" title="Chat with EdWin — EduKeep's Assistant" aria-label="Open chat">
-    <img src="EKApple_transparent.png" width="38" height="38" alt="EdWin" style="display:block;" />
+    <img id="edwin-apple" src="EKApple_transparent.png" width="38" height="38" alt="EdWin" />
   </button>
 </div>
 
@@ -1234,7 +1239,7 @@
   // ── EdWin Animations ──
   setTimeout(() => {
     if (!chatOpen) {
-      const btn = document.getElementById('chat-toggle');
+      const btn = document.getElementById('edwin-apple');
       const tip = document.getElementById('chat-tooltip');
       btn.classList.add('wiggle');
       tip.style.display = 'block';
@@ -1245,7 +1250,7 @@
 
   setInterval(() => {
     if (!chatOpen) {
-      const btn = document.getElementById('chat-toggle');
+      const btn = document.getElementById('edwin-apple');
       const tip = document.getElementById('chat-tooltip');
       btn.classList.add('wiggle');
       tip.style.display = 'block';
