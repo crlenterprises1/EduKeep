@@ -619,8 +619,97 @@
     #edwin-apple {
       display: block;
       animation: edwin-entrance 0.8s ease 1s both;
+      transform-origin: center center;
     }
-    #edwin-apple.wiggle { animation: edwin-wiggle 0.8s ease; }
+    #edwin-apple.btn-flipin { transform-origin: center bottom; }
+    #edwin-apple.wiggle    { animation: edwin-wiggle   0.8s ease; }
+    #edwin-apple.btn-roll     { animation: btn-roll       2.0s ease; }
+    #edwin-apple.btn-walk     { animation: btn-walk       4.0s ease; }
+    #edwin-apple.btn-bouncein { animation: btn-bouncein   0.9s cubic-bezier(0.2,0.8,0.3,1); }
+    #edwin-apple.btn-rollin   { animation: btn-rollin     1.0s ease; }
+    #edwin-apple.btn-flipin   { animation: btn-flipin     6.5s linear; }
+    /* Reappear tricks */
+    @keyframes btn-bouncein {
+      0%   { transform: translateX(-70px) scale(0); }
+      55%  { transform: translateX(0) scale(1.3); }
+      70%  { transform: translateX(0) scale(0.85); }
+      82%  { transform: translateX(0) scale(1.1); }
+      92%  { transform: translateX(0) scale(0.97); }
+      100% { transform: translateX(0) scale(1); }
+    }
+    @keyframes btn-rollin {
+      0%   { transform: translateX(-70px) rotate(-300deg); }
+      100% { transform: translateX(0) rotate(0deg); }
+    }
+
+    /* Button roll — exits right, pauses off-screen, returns same side */
+    @keyframes btn-roll {
+      0%   { transform: translateX(0) rotate(0deg); }
+      30%  { transform: translateX(70px) rotate(300deg); }
+      50%  { transform: translateX(70px) rotate(300deg); }
+      100% { transform: translateX(0) rotate(0deg); }
+    }
+    /* Button walk-peek — walks out left, peeks back from left */
+    /* Walk — rocks side to side like footsteps as he leaves */
+    @keyframes btn-walk {
+      /* Walk out to the left */
+      0%   { transform: translateX(0) rotate(0deg); }
+      5%   { transform: translateX(-6px) rotate(-12deg); }
+      10%  { transform: translateX(-14px) rotate(8deg); }
+      15%  { transform: translateX(-22px) rotate(-12deg); }
+      20%  { transform: translateX(-32px) rotate(8deg); }
+      25%  { transform: translateX(-42px) rotate(-12deg); }
+      30%  { transform: translateX(-52px) rotate(8deg); }
+      35%  { transform: translateX(-70px) rotate(0deg); }
+      /* Gone — pause off screen */
+      50%  { transform: translateX(-70px) rotate(0deg); opacity: 1; }
+      50.5%{ transform: translateX(-70px) rotate(0deg); opacity: 0; }
+      /* Teleport to right side — invisible */
+      51%  { transform: translateX(70px) rotate(0deg); opacity: 0; }
+      51.5%{ transform: translateX(70px) rotate(0deg); opacity: 1; }
+      /* Walk back in from the right */
+      56%  { transform: translateX(62px) rotate(8deg); }
+      61%  { transform: translateX(52px) rotate(-12deg); }
+      66%  { transform: translateX(40px) rotate(8deg); }
+      71%  { transform: translateX(28px) rotate(-12deg); }
+      76%  { transform: translateX(18px) rotate(8deg); }
+      81%  { transform: translateX(8px) rotate(-12deg); }
+      86%  { transform: translateX(0) rotate(8deg); }
+      92%  { transform: translateX(0) rotate(-3deg); }
+      100% { transform: translateX(0) rotate(0deg); }
+    }
+    /* Btn Flip In — zoom in, pop, bounce, shake, fall away on X from bottom, jump back */
+    @keyframes btn-flipin {
+      /* Roll in on X axis — 5 full rotations while zooming from tiny */
+      0%   { transform: scale(0.05) perspective(120px) rotateX(0deg); }
+      20%  { transform: scale(1.0) perspective(120px) rotateX(-1800deg); }
+      /* BIG POP — hits screen hard */
+      25%  { transform: scale(1.8) perspective(120px) rotateX(-1800deg); }
+      31%  { transform: scale(0.78) perspective(120px) rotateX(-1800deg); }
+      36%  { transform: scale(1.18) perspective(120px) rotateX(-1800deg); }
+      40%  { transform: scale(0.93) perspective(120px) rotateX(-1800deg); }
+      43%  { transform: scale(1.0) perspective(120px) rotateX(-1800deg); }
+      /* Shake it off */
+      47%  { transform: scale(1.0) rotate(-12deg); }
+      51%  { transform: scale(1.0) rotate(12deg); }
+      55%  { transform: scale(1.0) rotate(-6deg); }
+      58%  { transform: scale(1.0) rotate(4deg); }
+      62%  { transform: scale(1.0) rotate(0deg); }
+      /* Fall away — bottom stays fixed, top tips back and away */
+      65%  { transform: perspective(200px) rotateX(0deg);  }
+      73%  { transform: perspective(200px) rotateX(45deg); }
+      79%  { transform: perspective(200px) rotateX(88deg); }
+      /* Flat — nice long pause fully gone */
+      91%  { transform: perspective(200px) rotateX(88deg); }
+      /* Jump back — bouncy spring sequence */
+      93%  { transform: perspective(200px) rotateX(60deg); }
+      95%  { transform: perspective(200px) rotateX(-25deg) scale(1.2); }
+      96%  { transform: perspective(200px) rotateX(12deg) scale(0.9); }
+      97%  { transform: perspective(200px) rotateX(-10deg) scale(1.1); }
+      98%  { transform: perspective(200px) rotateX(5deg) scale(0.97); }
+      99%  { transform: perspective(200px) rotateX(-2deg) scale(1.02); }
+      100% { transform: perspective(200px) rotateX(0deg) scale(1.0);  }
+    }
 
     /* Speech bubble tooltip */
     #chat-tooltip {
@@ -682,7 +771,7 @@
     }
     #chat-apple {
       display: block;
-      transform-origin: center bottom;
+      transform-origin: center center;
     }
     #chat-apple.bounce    { animation: edwin-bounce    1.0s ease; }
     #chat-apple.wiggle    { animation: edwin-wiggle    0.8s ease; }
@@ -1442,24 +1531,39 @@
     apple.classList.remove(...ALL_TRICKS);
     apple.style.transform = '';
     apple.style.opacity = '';
+    apple.style.transformOrigin = 'center center';
     void apple.offsetWidth;
     apple.classList.add(trick);
     const dur = DURATIONS[trick] || 1200;
     setTimeout(() => {
       apple.classList.remove(trick);
       if (trick === 'peek') {
+        // Lock at peek position
         apple.style.transition = 'none';
         apple.style.transform = 'translateX(24px)';
         setTimeout(() => {
-          apple.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+          // Slide out right — final peek out
+          apple.style.transition = 'transform 0.3s ease';
           apple.style.transform = 'translateX(52px)';
-          apple.style.opacity = '0';
           setTimeout(() => {
-            apple.style.transition = '';
-            apple.style.transform = '';
-            apple.style.opacity = '';
-            trickBusy = false;
-          }, 2500);
+            // Long pause off screen right
+            // Then snap to far left, invisible
+            apple.style.transition = 'none';
+            apple.style.transform = 'translateX(-52px)';
+            apple.style.opacity = '0';
+            setTimeout(() => {
+              // Fade in and slowly glide from left to center
+              apple.style.opacity = '1';
+              apple.style.transition = 'transform 1.4s cubic-bezier(0.25,0.46,0.45,0.94)';
+              apple.style.transform = 'translateX(0)';
+              setTimeout(() => {
+                apple.style.transition = '';
+                apple.style.transform = '';
+                apple.style.opacity = '';
+                trickBusy = false;
+              }, 1500);
+            }, 100);
+          }, 2000);
         }, 30);
       } else {
         trickBusy = false;
@@ -1543,23 +1647,76 @@
   ];
   let msgIndex = 0;
 
+  // ── Button Idle Trick System ──
+  const BTN_ALL = ['wiggle','btn-roll','btn-walk','btn-bouncein','btn-rollin','btn-flipin'];
+  const BTN_REAPPEAR = ['btn-bouncein','btn-rollin','btn-flipin'];
+  let btnBusy = false;
+  let btnSequence = ['wiggle','btn-roll','btn-walk','wiggle','btn-roll','btn-walk'];
+  let btnIndex = 0;
+
   function doButtonTrick() {
-    if (chatOpen) return;
+    if (chatOpen || btnBusy) return;
+    btnBusy = true;
+
+    // Show tooltip
     const tip = document.getElementById('chat-tooltip');
     tip.textContent = tooltipMessages[msgIndex % tooltipMessages.length];
     tip.style.display = 'block';
     msgIndex++;
     setTimeout(() => tip.style.display = 'none', 4000);
+
     const apple = document.getElementById('edwin-apple');
-    if (apple) {
-      apple.classList.remove('wiggle');
-      void apple.offsetWidth;
+    if (!apple) { btnBusy = false; return; }
+
+    const trick = btnSequence[btnIndex % btnSequence.length];
+    btnIndex++;
+
+    apple.classList.remove(...BTN_ALL);
+    apple.style.transformOrigin = trick === 'btn-flipin' ? 'center bottom' : 'center center';
+    void apple.offsetWidth;
+
+    if (trick === 'wiggle') {
       apple.classList.add('wiggle');
-      setTimeout(() => apple.classList.remove('wiggle'), 900);
+      setTimeout(() => {
+        apple.classList.remove('wiggle');
+        btnBusy = false;
+      }, 900);
+
+    } else if (trick === 'btn-roll') {
+      // Roll out right, pause off-screen, roll back same side
+      apple.classList.add('btn-roll');
+      setTimeout(() => {
+        apple.classList.remove('btn-roll');
+        // Stay visible for a beat then reappear
+        apple.style.transition = 'none';
+        apple.style.transform = 'translateX(70px)';
+        setTimeout(() => {
+          const reappear = BTN_REAPPEAR[Math.floor(Math.random() * BTN_REAPPEAR.length)];
+          apple.style.transform = '';
+          apple.style.transition = '';
+          void apple.offsetWidth;
+          apple.classList.add(reappear);
+          const dur = reappear === 'btn-flipin' ? 6600 : 1100;
+          setTimeout(() => {
+            apple.classList.remove(reappear);
+            btnBusy = false;
+          }, dur);
+        }, 800);
+      }, 2100);
+
+    } else if (trick === 'btn-walk') {
+      // Walk out left, comes back from right on his own
+      apple.classList.add('btn-walk');
+      setTimeout(() => {
+        apple.classList.remove('btn-walk');
+        apple.style.transform = '';
+        btnBusy = false;
+      }, 4100);
     }
   }
+
   setTimeout(doButtonTrick, 8000);
-  setInterval(() => { if (!chatOpen) doButtonTrick(); }, 20000);
+  setInterval(() => { if (!chatOpen && !btnBusy) doButtonTrick(); }, 22000);
 
 
 </script>
