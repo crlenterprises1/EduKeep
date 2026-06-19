@@ -618,51 +618,41 @@
     }
     #chat-toggle:hover { box-shadow: 0 6px 28px rgba(45,122,79,0.55); }
 
-    /* Inner sage circle — clips all EKA animations inside the button */
-    #btn-apple-mask {
-      width: 50px;
-      height: 50px;
-      background: var(--green-light);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      flex-shrink: 0;
+    #edwin-apple {
+      display: block;
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
       transform-origin: center center;
       animation: edwin-entrance 0.8s ease 1s both;
     }
-    #edwin-apple {
-      display: block;
-      transform-origin: center center;
-    }
-    #btn-apple-mask.btn-flipin       { transform-origin: center bottom; }
-    #btn-apple-mask.wiggle           { animation: edwin-wiggle      0.8s ease; }
-    #btn-apple-mask.btn-bounce       { animation: btn-bounce        1.0s ease; }
-    #btn-apple-mask.btn-nod          { animation: btn-nod           1.2s ease; }
-    #btn-apple-mask.btn-heartbeat    { animation: btn-heartbeat     1.4s ease-in-out 3; }
-    #btn-apple-mask.btn-roll         { animation: btn-roll          2.0s ease; }
-    #btn-apple-mask.btn-walk         { animation: btn-walk          4.0s ease; }
-    #btn-apple-mask.btn-bouncein     { animation: btn-bouncein      0.9s cubic-bezier(0.2,0.8,0.3,1); }
-    #btn-apple-mask.btn-rollin       { animation: btn-rollin        1.0s ease; }
-    #btn-apple-mask.btn-flipin       { animation: btn-flipin        6.5s linear; }
-    #btn-apple-mask.exit-walk-left   { animation: exit-walk-left    1.4s ease forwards; }
-    #btn-apple-mask.exit-walk-right  { animation: exit-walk-right   1.4s ease forwards; }
-    #btn-apple-mask.exit-roll-left   { animation: exit-roll-left    1.0s ease-in forwards; }
-    #btn-apple-mask.exit-roll-right  { animation: exit-roll-right   1.0s ease-in forwards; }
-    #btn-apple-mask.exit-blast       { animation: exit-blast        0.9s ease-in forwards; }
-    #btn-apple-mask.exit-melt        { animation: exit-melt         1.1s ease-in forwards; }
-    #btn-apple-mask.exit-shrink      { animation: exit-shrink       0.9s ease-in forwards; }
-    #btn-apple-mask.exit-spinout     { animation: exit-spinout      1.0s ease-in forwards; }
-    #btn-apple-mask.enter-walk-left  { animation: enter-walk-left   1.6s ease forwards; }
-    #btn-apple-mask.enter-walk-right { animation: enter-walk-right  1.6s ease forwards; }
-    #btn-apple-mask.enter-roll-left  { animation: enter-roll-left   1.2s ease-out forwards; }
-    #btn-apple-mask.enter-roll-right { animation: enter-roll-right  1.2s ease-out forwards; }
-    #btn-apple-mask.enter-drop       { animation: enter-drop        1.4s ease forwards; }
-    #btn-apple-mask.enter-grow       { animation: enter-grow        1.2s ease forwards; }
-    #btn-apple-mask.enter-spinin     { animation: enter-spinin      1.4s ease forwards; }
-    #btn-apple-mask.enter-blast-return { animation: enter-blast-return 1.6s ease forwards; }
-    #btn-apple-mask.enter-melt-up    { animation: enter-melt-up     1.2s ease forwards; }
+    #edwin-apple.btn-flipin       { transform-origin: center bottom; }
+    #edwin-apple.wiggle           { animation: edwin-wiggle      0.8s ease; }
+    #edwin-apple.btn-bounce       { animation: btn-bounce        1.0s ease; }
+    #edwin-apple.btn-nod          { animation: btn-nod           1.2s ease; }
+    #edwin-apple.btn-heartbeat    { animation: btn-heartbeat     1.4s ease-in-out 3; }
+    #edwin-apple.btn-roll         { animation: btn-roll          2.0s ease; }
+    #edwin-apple.btn-walk         { animation: btn-walk          4.0s ease; }
+    #edwin-apple.btn-bouncein     { animation: btn-bouncein      0.9s cubic-bezier(0.2,0.8,0.3,1); }
+    #edwin-apple.btn-rollin       { animation: btn-rollin        1.0s ease; }
+    #edwin-apple.btn-flipin       { animation: btn-flipin        6.5s linear; }
+    #edwin-apple.exit-walk-left   { animation: exit-walk-left    1.4s ease forwards; }
+    #edwin-apple.exit-walk-right  { animation: exit-walk-right   1.4s ease forwards; }
+    #edwin-apple.exit-roll-left   { animation: exit-roll-left    1.0s ease-in forwards; }
+    #edwin-apple.exit-roll-right  { animation: exit-roll-right   1.0s ease-in forwards; }
+    #edwin-apple.exit-blast       { animation: exit-blast        0.9s ease-in forwards; }
+    #edwin-apple.exit-melt        { animation: exit-melt         1.1s ease-in forwards; }
+    #edwin-apple.exit-shrink      { animation: exit-shrink       0.9s ease-in forwards; }
+    #edwin-apple.exit-spinout     { animation: exit-spinout      1.0s ease-in forwards; }
+    #edwin-apple.enter-walk-left  { animation: enter-walk-left   1.6s ease forwards; }
+    #edwin-apple.enter-walk-right { animation: enter-walk-right  1.6s ease forwards; }
+    #edwin-apple.enter-roll-left  { animation: enter-roll-left   1.2s ease-out forwards; }
+    #edwin-apple.enter-roll-right { animation: enter-roll-right  1.2s ease-out forwards; }
+    #edwin-apple.enter-drop       { animation: enter-drop        1.4s ease forwards; }
+    #edwin-apple.enter-grow       { animation: enter-grow        1.2s ease forwards; }
+    #edwin-apple.enter-spinin     { animation: enter-spinin      1.4s ease forwards; }
+    #edwin-apple.enter-blast-return { animation: enter-blast-return 1.6s ease forwards; }
+    #edwin-apple.enter-melt-up    { animation: enter-melt-up     1.2s ease forwards; }
     /* Reappear tricks */
     @keyframes btn-bouncein {
       0%   { transform: translateX(-70px) scale(0); }
@@ -1460,9 +1450,7 @@
   <!-- Chat tooltip -->
   <div id="chat-tooltip">👋 Hi! I'm EdWin — ask me anything!</div>
   <button id="chat-toggle" onclick="toggleChat()" title="Chat with EdWin — EduKeep's Assistant" aria-label="Open chat">
-    <div id="btn-apple-mask">
-      <img id="edwin-apple" src="EKApple_transparent.png" width="44" height="44" alt="EdWin" />
-    </div>
+    <img id="edwin-apple" src="EKApple_transparent.png" alt="EdWin" />
   </button>
 </div>
 
@@ -1931,7 +1919,7 @@
     if (chatOpen || btnBusy) return;
     btnBusy = true;
 
-    const apple = document.getElementById('btn-apple-mask');
+    const apple = document.getElementById('edwin-apple');
     if (!apple) { btnBusy = false; return; }
 
     // Show speech bubble randomly (60% chance)
