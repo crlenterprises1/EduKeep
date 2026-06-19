@@ -621,13 +621,33 @@
       animation: edwin-entrance 0.8s ease 1s both;
       transform-origin: center center;
     }
-    #edwin-apple.btn-flipin { transform-origin: center bottom; }
-    #edwin-apple.wiggle    { animation: edwin-wiggle   0.8s ease; }
-    #edwin-apple.btn-roll     { animation: btn-roll       2.0s ease; }
-    #edwin-apple.btn-walk     { animation: btn-walk       4.0s ease; }
-    #edwin-apple.btn-bouncein { animation: btn-bouncein   0.9s cubic-bezier(0.2,0.8,0.3,1); }
-    #edwin-apple.btn-rollin   { animation: btn-rollin     1.0s ease; }
-    #edwin-apple.btn-flipin   { animation: btn-flipin     6.5s linear; }
+    #edwin-apple.btn-flipin       { transform-origin: center bottom; }
+    #edwin-apple.wiggle           { animation: edwin-wiggle      0.8s ease; }
+    #edwin-apple.btn-bounce       { animation: btn-bounce        1.0s ease; }
+    #edwin-apple.btn-nod          { animation: btn-nod           1.2s ease; }
+    #edwin-apple.btn-heartbeat    { animation: btn-heartbeat     1.4s ease-in-out 3; }
+    #edwin-apple.btn-roll         { animation: btn-roll          2.0s ease; }
+    #edwin-apple.btn-walk         { animation: btn-walk          4.0s ease; }
+    #edwin-apple.btn-bouncein     { animation: btn-bouncein      0.9s cubic-bezier(0.2,0.8,0.3,1); }
+    #edwin-apple.btn-rollin       { animation: btn-rollin        1.0s ease; }
+    #edwin-apple.btn-flipin       { animation: btn-flipin        6.5s linear; }
+    #edwin-apple.exit-walk-left   { animation: exit-walk-left    1.4s ease forwards; }
+    #edwin-apple.exit-walk-right  { animation: exit-walk-right   1.4s ease forwards; }
+    #edwin-apple.exit-roll-left   { animation: exit-roll-left    1.0s ease-in forwards; }
+    #edwin-apple.exit-roll-right  { animation: exit-roll-right   1.0s ease-in forwards; }
+    #edwin-apple.exit-blast       { animation: exit-blast        0.9s ease-in forwards; }
+    #edwin-apple.exit-melt        { animation: exit-melt         1.1s ease-in forwards; }
+    #edwin-apple.exit-shrink      { animation: exit-shrink       0.9s ease-in forwards; }
+    #edwin-apple.exit-spinout     { animation: exit-spinout      1.0s ease-in forwards; }
+    #edwin-apple.enter-walk-left  { animation: enter-walk-left   1.6s ease forwards; }
+    #edwin-apple.enter-walk-right { animation: enter-walk-right  1.6s ease forwards; }
+    #edwin-apple.enter-roll-left  { animation: enter-roll-left   1.2s ease-out forwards; }
+    #edwin-apple.enter-roll-right { animation: enter-roll-right  1.2s ease-out forwards; }
+    #edwin-apple.enter-drop       { animation: enter-drop        1.4s ease forwards; }
+    #edwin-apple.enter-grow       { animation: enter-grow        1.2s ease forwards; }
+    #edwin-apple.enter-spinin     { animation: enter-spinin      1.4s ease forwards; }
+    #edwin-apple.enter-blast-return { animation: enter-blast-return 1.6s ease forwards; }
+    #edwin-apple.enter-melt-up    { animation: enter-melt-up     1.2s ease forwards; }
     /* Reappear tricks */
     @keyframes btn-bouncein {
       0%   { transform: translateX(-70px) scale(0); }
@@ -642,8 +662,136 @@
       100% { transform: translateX(0) rotate(0deg); }
     }
 
-    /* Button roll — exits right, pauses off-screen, returns same side */
-    @keyframes btn-roll {
+    /* ── ENTRANCE / EXIT KEYFRAMES ── */
+    @keyframes exit-walk-left {
+      0%   { transform:translateX(0) rotate(0deg); }
+      12%  { transform:translateX(-8px) rotate(-12deg); }
+      24%  { transform:translateX(-18px) rotate(8deg); }
+      36%  { transform:translateX(-30px) rotate(-12deg); }
+      48%  { transform:translateX(-44px) rotate(8deg); }
+      60%  { transform:translateX(-60px) rotate(-8deg); }
+      100% { transform:translateX(-60px) rotate(0deg); }
+    }
+    @keyframes exit-walk-right {
+      0%   { transform:translateX(0) rotate(0deg); }
+      12%  { transform:translateX(8px) rotate(12deg); }
+      24%  { transform:translateX(18px) rotate(-8deg); }
+      36%  { transform:translateX(30px) rotate(12deg); }
+      48%  { transform:translateX(44px) rotate(-8deg); }
+      60%  { transform:translateX(60px) rotate(8deg); }
+      100% { transform:translateX(60px) rotate(0deg); }
+    }
+    @keyframes exit-roll-left {
+      0%   { transform:translateX(0) rotate(0deg); }
+      100% { transform:translateX(-60px) rotate(-540deg); }
+    }
+    @keyframes exit-roll-right {
+      0%   { transform:translateX(0) rotate(0deg); }
+      100% { transform:translateX(60px) rotate(540deg); }
+    }
+    @keyframes exit-blast {
+      0%   { transform:translateY(0) scale(1); }
+      15%  { transform:translateY(4px) scale(0.92); }
+      100% { transform:translateY(-60px) scale(0.5); }
+    }
+    @keyframes exit-melt {
+      0%   { transform:scaleY(1); transform-origin:center bottom; }
+      100% { transform:scaleY(0); transform-origin:center bottom; }
+    }
+    @keyframes exit-shrink {
+      0%   { transform:scale(1); opacity:1; }
+      100% { transform:scale(0); opacity:0; }
+    }
+    @keyframes exit-spinout {
+      0%   { transform:rotate(0deg) scale(1); opacity:1; }
+      100% { transform:rotate(720deg) scale(0); opacity:0; }
+    }
+    @keyframes enter-walk-left {
+      0%   { transform:translateX(-60px) rotate(0deg); }
+      40%  { transform:translateX(-44px) rotate(8deg); }
+      52%  { transform:translateX(-30px) rotate(-12deg); }
+      64%  { transform:translateX(-18px) rotate(8deg); }
+      76%  { transform:translateX(-8px) rotate(-12deg); }
+      86%  { transform:translateX(0) rotate(6deg); }
+      93%  { transform:translateX(0) rotate(-3deg); }
+      100% { transform:translateX(0) rotate(0deg); }
+    }
+    @keyframes enter-walk-right {
+      0%   { transform:translateX(60px) rotate(0deg); }
+      40%  { transform:translateX(44px) rotate(-8deg); }
+      52%  { transform:translateX(30px) rotate(12deg); }
+      64%  { transform:translateX(18px) rotate(-8deg); }
+      76%  { transform:translateX(8px) rotate(12deg); }
+      86%  { transform:translateX(0) rotate(-6deg); }
+      93%  { transform:translateX(0) rotate(3deg); }
+      100% { transform:translateX(0) rotate(0deg); }
+    }
+    @keyframes enter-roll-left {
+      0%   { transform:translateX(-60px) rotate(-540deg); }
+      100% { transform:translateX(0) rotate(0deg); }
+    }
+    @keyframes enter-roll-right {
+      0%   { transform:translateX(60px) rotate(540deg); }
+      100% { transform:translateX(0) rotate(0deg); }
+    }
+    @keyframes enter-drop {
+      0%   { transform:translateY(-60px) scaleX(1) scaleY(1); }
+      45%  { transform:translateY(0) scaleX(1) scaleY(1); }
+      52%  { transform:translateY(0) scaleX(1.5) scaleY(0.5); }
+      62%  { transform:translateY(0) scaleX(0.8) scaleY(1.3); }
+      72%  { transform:translateY(0) scaleX(1.12) scaleY(0.92); }
+      82%  { transform:translateY(0) scaleX(0.96) scaleY(1.04); }
+      100% { transform:translateY(0) scaleX(1) scaleY(1); }
+    }
+    @keyframes enter-grow {
+      0%   { transform:scale(0); opacity:0; }
+      55%  { transform:scale(1.3); opacity:1; }
+      70%  { transform:scale(0.88); opacity:1; }
+      82%  { transform:scale(1.08); opacity:1; }
+      92%  { transform:scale(0.97); opacity:1; }
+      100% { transform:scale(1); opacity:1; }
+    }
+    @keyframes enter-spinin {
+      0%   { transform:rotate(-720deg) scale(0); opacity:0; }
+      75%  { transform:rotate(0deg) scale(1.2); opacity:1; }
+      87%  { transform:rotate(0deg) scale(0.9); opacity:1; }
+      100% { transform:rotate(0deg) scale(1); opacity:1; }
+    }
+    @keyframes enter-blast-return {
+      0%   { transform:translateY(-60px) scale(0.4) rotate(360deg); opacity:0; }
+      40%  { transform:translateY(-60px) scale(0.4) rotate(360deg); opacity:1; }
+      80%  { transform:translateY(4px) scale(1.15) rotate(0deg); opacity:1; }
+      90%  { transform:translateY(-4px) scale(0.95); opacity:1; }
+      100% { transform:translateY(0) scale(1); opacity:1; }
+    }
+    @keyframes enter-melt-up {
+      0%   { transform:scaleY(0); transform-origin:center bottom; }
+      70%  { transform:scaleY(1.1); transform-origin:center bottom; }
+      85%  { transform:scaleY(0.95); transform-origin:center bottom; }
+      100% { transform:scaleY(1); transform-origin:center bottom; }
+    }
+    /* Idle tricks on button */
+    @keyframes btn-bounce {
+      0%,100% { transform:translateY(0) scaleX(1) scaleY(1); }
+      25%  { transform:translateY(-10px) scaleX(0.9) scaleY(1.1); }
+      50%  { transform:translateY(0) scaleX(1.2) scaleY(0.8); }
+      65%  { transform:translateY(-5px) scaleX(0.95) scaleY(1.05); }
+      80%  { transform:translateY(0) scaleX(1.05) scaleY(0.97); }
+    }
+    @keyframes btn-nod {
+      0%,100% { transform:translateY(0); }
+      20%  { transform:translateY(-6px); }
+      40%  { transform:translateY(0); }
+      60%  { transform:translateY(-6px); }
+      80%  { transform:translateY(0); }
+    }
+    @keyframes btn-heartbeat {
+      0%,100% { transform:scale(1); }
+      8%   { transform:scale(1.3); }
+      16%  { transform:scale(1.0); }
+      24%  { transform:scale(1.2); }
+      32%  { transform:scale(1.0); }
+    }
       0%   { transform: translateX(0) rotate(0deg); }
       30%  { transform: translateX(70px) rotate(300deg); }
       50%  { transform: translateX(70px) rotate(300deg); }
@@ -1637,86 +1785,171 @@
     }
   }, 6000);
 
-  // ── Button animations when chat is CLOSED (every 20s) ──
-  const tooltipMessages = [
-    '👋 Hi! I\'m EdWin — ask me anything!',
-    '🍎 How does the 93% work?',
-    '💰 Keep what\'s yours — always!',
-    '🎉 $36 once. 93% forever!',
-    '📚 What can I sell on EduKeep?'
+  // ══════════════════════════════════════════════════════
+  // BUTTON IDLE SYSTEM — random idle tricks, exits, pauses, entrances
+  // ══════════════════════════════════════════════════════
+
+  const BTN_IDLE_TRICKS = [
+    { cls:'wiggle',        dur:900  },
+    { cls:'btn-bounce',    dur:1100 },
+    { cls:'btn-nod',       dur:1300 },
+    { cls:'btn-heartbeat', dur:4500 },
+    { cls:'btn-roll',      dur:2100 },
+    { cls:'btn-walk',      dur:4100 },
   ];
-  let msgIndex = 0;
 
-  // ── Button Idle Trick System ──
-  const BTN_ALL = ['wiggle','btn-roll','btn-walk','btn-bouncein','btn-rollin','btn-flipin'];
-  const BTN_REAPPEAR = ['btn-bouncein','btn-rollin','btn-flipin'];
+  const BTN_EXITS = [
+    { cls:'exit-walk-left',  dur:1500 },
+    { cls:'exit-walk-right', dur:1500 },
+    { cls:'exit-roll-left',  dur:1100 },
+    { cls:'exit-roll-right', dur:1100 },
+    { cls:'exit-blast',      dur:1000 },
+    { cls:'exit-melt',       dur:1200 },
+    { cls:'exit-shrink',     dur:1000 },
+    { cls:'exit-spinout',    dur:1100 },
+  ];
+
+  const BTN_ENTERS = [
+    { cls:'enter-walk-left',    dur:1700 },
+    { cls:'enter-walk-right',   dur:1700 },
+    { cls:'enter-roll-left',    dur:1300 },
+    { cls:'enter-roll-right',   dur:1300 },
+    { cls:'enter-drop',         dur:1500 },
+    { cls:'enter-grow',         dur:1300 },
+    { cls:'enter-spinin',       dur:1500 },
+    { cls:'enter-blast-return', dur:1700 },
+    { cls:'enter-melt-up',      dur:1300 },
+    { cls:'btn-flipin',         dur:6600 },
+  ];
+
+  // Smart pairs — exit → entrance combos that make sense together
+  const BTN_PAIRS = [
+    ['exit-walk-left',  'enter-walk-right'],
+    ['exit-walk-right', 'enter-walk-left'],
+    ['exit-roll-left',  'enter-roll-right'],
+    ['exit-roll-right', 'enter-roll-left'],
+    ['exit-roll-left',  'enter-walk-right'],
+    ['exit-walk-right', 'enter-roll-left'],
+    ['exit-blast',      'enter-blast-return'],
+    ['exit-blast',      'enter-drop'],
+    ['exit-melt',       'enter-melt-up'],
+    ['exit-melt',       'enter-grow'],
+    ['exit-shrink',     'enter-grow'],
+    ['exit-shrink',     'enter-spinin'],
+    ['exit-spinout',    'enter-spinin'],
+    ['exit-spinout',    'enter-roll-right'],
+    ['exit-walk-left',  'enter-drop'],
+    ['exit-blast',      'btn-flipin'],
+    ['exit-shrink',     'btn-flipin'],
+    ['exit-spinout',    'btn-flipin'],
+  ];
+
+  const ALL_BTN_CLASSES = [
+    ...BTN_IDLE_TRICKS.map(t=>t.cls),
+    ...BTN_EXITS.map(t=>t.cls),
+    ...BTN_ENTERS.map(t=>t.cls),
+    'btn-bouncein','btn-rollin'
+  ];
+
   let btnBusy = false;
-  let btnSequence = ['wiggle','btn-roll','btn-walk','wiggle','btn-roll','btn-walk'];
-  let btnIndex = 0;
+  let lastPairIdx = -1;
 
-  function doButtonTrick() {
-    if (chatOpen || btnBusy) return;
-    btnBusy = true;
+  function resetBtn(apple) {
+    apple.classList.remove(...ALL_BTN_CLASSES);
+    apple.style.cssText = '';
+    apple.style.transformOrigin = 'center center';
+  }
 
-    // Show tooltip
+  function showTooltip() {
     const tip = document.getElementById('chat-tooltip');
+    if (!tip) return;
     tip.textContent = tooltipMessages[msgIndex % tooltipMessages.length];
     tip.style.display = 'block';
     msgIndex++;
     setTimeout(() => tip.style.display = 'none', 4000);
+  }
+
+  function runBtnIdle(apple, trick) {
+    resetBtn(apple);
+    if (trick.cls === 'btn-flipin') apple.style.transformOrigin = 'center bottom';
+    void apple.offsetWidth;
+    apple.classList.add(trick.cls);
+    setTimeout(() => {
+      apple.classList.remove(trick.cls);
+      apple.style.cssText = '';
+      btnBusy = false;
+    }, trick.dur + 100);
+  }
+
+  function runBtnPair(apple, exitCls, enterCls) {
+    const exitTrick = BTN_EXITS.find(t=>t.cls===exitCls) || {dur:1200};
+    const enterTrick = [...BTN_ENTERS, ...BTN_IDLE_TRICKS].find(t=>t.cls===enterCls) || {dur:1500};
+
+    resetBtn(apple);
+    void apple.offsetWidth;
+    apple.classList.add(exitCls);
+
+    setTimeout(() => {
+      apple.classList.remove(exitCls);
+      apple.style.opacity = '0';
+      apple.style.transform = '';
+
+      // Random pause between exit and entrance: 1–4 seconds
+      const pause = 1000 + Math.random() * 3000;
+      setTimeout(() => {
+        resetBtn(apple);
+        if (enterCls === 'btn-flipin') apple.style.transformOrigin = 'center bottom';
+        void apple.offsetWidth;
+        apple.classList.add(enterCls);
+        setTimeout(() => {
+          apple.classList.remove(enterCls);
+          apple.style.cssText = '';
+          btnBusy = false;
+        }, enterTrick.dur + 100);
+      }, pause);
+    }, exitTrick.dur);
+  }
+
+  function doButtonAction() {
+    if (chatOpen || btnBusy) return;
+    btnBusy = true;
 
     const apple = document.getElementById('edwin-apple');
     if (!apple) { btnBusy = false; return; }
 
-    const trick = btnSequence[btnIndex % btnSequence.length];
-    btnIndex++;
+    // Show speech bubble randomly (60% chance)
+    if (Math.random() < 0.6) showTooltip();
 
-    apple.classList.remove(...BTN_ALL);
-    apple.style.transformOrigin = trick === 'btn-flipin' ? 'center bottom' : 'center center';
-    void apple.offsetWidth;
-
-    if (trick === 'wiggle') {
-      apple.classList.add('wiggle');
-      setTimeout(() => {
-        apple.classList.remove('wiggle');
-        btnBusy = false;
-      }, 900);
-
-    } else if (trick === 'btn-roll') {
-      // Roll out right, pause off-screen, roll back same side
-      apple.classList.add('btn-roll');
-      setTimeout(() => {
-        apple.classList.remove('btn-roll');
-        // Stay visible for a beat then reappear
-        apple.style.transition = 'none';
-        apple.style.transform = 'translateX(70px)';
-        setTimeout(() => {
-          const reappear = BTN_REAPPEAR[Math.floor(Math.random() * BTN_REAPPEAR.length)];
-          apple.style.transform = '';
-          apple.style.transition = '';
-          void apple.offsetWidth;
-          apple.classList.add(reappear);
-          const dur = reappear === 'btn-flipin' ? 6600 : 1100;
-          setTimeout(() => {
-            apple.classList.remove(reappear);
-            btnBusy = false;
-          }, dur);
-        }, 800);
-      }, 2100);
-
-    } else if (trick === 'btn-walk') {
-      // Walk out left, comes back from right on his own
-      apple.classList.add('btn-walk');
-      setTimeout(() => {
-        apple.classList.remove('btn-walk');
-        apple.style.transform = '';
-        btnBusy = false;
-      }, 4100);
+    // 40% chance of idle trick, 60% chance of exit+entrance pair
+    if (Math.random() < 0.4) {
+      const trick = BTN_IDLE_TRICKS[Math.floor(Math.random() * BTN_IDLE_TRICKS.length)];
+      runBtnIdle(apple, trick);
+    } else {
+      let idx;
+      do { idx = Math.floor(Math.random() * BTN_PAIRS.length); } while (idx === lastPairIdx);
+      lastPairIdx = idx;
+      const [exitCls, enterCls] = BTN_PAIRS[idx];
+      runBtnPair(apple, exitCls, enterCls);
     }
   }
 
-  setTimeout(doButtonTrick, 8000);
-  setInterval(() => { if (!chatOpen && !btnBusy) doButtonTrick(); }, 22000);
+  function scheduleNextAction() {
+    if (chatOpen) return;
+    // Random interval: 15–45 seconds
+    const delay = 15000 + Math.random() * 30000;
+    setTimeout(() => {
+      doButtonAction();
+      // Schedule next after current action completes
+      const longestPossible = 6600 + 4000 + 1700; // flipin + max pause + enter
+      setTimeout(scheduleNextAction, longestPossible);
+    }, delay);
+  }
+
+  // Kick off after 8 seconds
+  setTimeout(() => {
+    doButtonAction();
+    scheduleNextAction();
+  }, 8000);
 
 
 </script>
