@@ -624,7 +624,7 @@
       height: 52px;
       object-fit: contain;
       transform-origin: center center;
-      animation: edwin-entrance 0.8s ease 1s both;
+      opacity: 0;
     }
     #edwin-apple.btn-flipin       { transform-origin: center bottom; }
     #edwin-apple.wiggle           { animation: edwin-wiggle      0.8s ease; }
@@ -1613,31 +1613,10 @@
     chatOpen = !chatOpen;
     document.getElementById('chat-window').classList.toggle('open', chatOpen);
     document.getElementById('chat-tooltip').style.display = 'none';
-    if (chatOpen) document.getElementById('chat-input').focus();
-  }
-
-  function askSuggestion(text) {
-    document.getElementById('suggestions').style.display = 'none';
-    addMessage(text, 'user');
-    setTimeout(() => respondFAQ(text), 400);
-  }
-
-  function sendChat() {
-    const input = document.getElementById('chat-input');
-    const text = input.value.trim();
-    if (!text) return;
-    input.value = '';
-    document.getElementById('suggestions').style.display = 'none';
-    addMessage(text, 'user');
-    setTimeout(() => respondFAQ(text), 400);
-  }
-
-  function respondFAQ(text) {
-    showTyping();
-    setTimeout(() => {
-      removeTyping();
-      addMessage(getAnswer(text), 'bot');
-    }, 600);
+    if (chatOpen) {
+      document.getElementById('chat-input').focus();
+      setTimeout(() => playTrick('pop'), 100);
+    }
   }
 
   function addMessage(text, role) {
@@ -1725,21 +1704,9 @@
   }
 
   // ── Trigger mapping ──
-  // Chat opens → pop
-  const _origToggle = toggleChat;
-  function toggleChat() {
-    const wasOpen = chatOpen;
-    chatOpen = !chatOpen;
-    document.getElementById('chat-window').classList.toggle('open', chatOpen);
-    document.getElementById('chat-tooltip').style.display = 'none';
-    if (chatOpen) {
-      document.getElementById('chat-input').focus();
-      setTimeout(() => playTrick('pop'), 100);
-    }
-  }
+  // Chat opens → pop (wired into the main toggleChat above)
 
   // User sends message → spin (thinking)
-  const _origAskSuggestion = askSuggestion;
   function askSuggestion(text) {
     document.getElementById('suggestions').style.display = 'none';
     addMessage(text, 'user');
@@ -1758,7 +1725,6 @@
   }
 
   // respondFAQ — pick trick based on topic after response
-  const _origRespondFAQ = respondFAQ;
   function respondFAQ(text) {
     showTyping();
     const t = text.toLowerCase();
@@ -1867,6 +1833,15 @@
     apple.style.transformOrigin = 'center center';
   }
 
+  const tooltipMessages = [
+    '👋 Hi! I\'m EdWin — ask me anything!',
+    '🍎 How does the 93% work?',
+    '💰 Keep what\'s yours — always!',
+    '🎉 $36 once. 93% forever!',
+    '📚 What can I sell on EduKeep?'
+  ];
+  let msgIndex = 0;
+
   function showTooltip() {
     const tip = document.getElementById('chat-tooltip');
     if (!tip) return;
@@ -1942,15 +1917,31 @@
 
   function scheduleNextAction() {
     if (chatOpen) return;
-    // Random wait before next action: 8–25 seconds
-    const delay = 8000 + Math.random() * 17000;
+    // Random wait: 6–20 seconds between actions
+    const delay = 6000 + Math.random() * 14000;
     setTimeout(() => {
       if (!chatOpen) doButtonAction();
     }, delay);
   }
 
-  // First action after 6 seconds
-  setTimeout(() => { doButtonAction(); }, 6000);
+  // ── Initial entrance then random scheduling ──
+  setTimeout(() => {
+    const apple = document.getElementById('edwin-apple');
+    if (!apple) return;
+    // Start hidden, do enter-grow as first appearance
+    apple.style.opacity = '0';
+    apple.style.transform = '';
+    apple.style.transformOrigin = 'center center';
+    void apple.offsetWidth;
+    apple.classList.add('enter-grow');
+    setTimeout(() => {
+      apple.classList.remove('enter-grow');
+      apple.style.opacity = '1';
+      apple.style.transform = '';
+      // Now start the random idle system
+      scheduleNextAction();
+    }, 1400);
+  }, 800);
 
 
 </script>
