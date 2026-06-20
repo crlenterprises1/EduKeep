@@ -1339,8 +1339,8 @@
           <input type="number" id="earn-input" value="10.00" min="0.50" step="0.50" oninput="calcUpdate()" />
         </div>
         <div class="calc-slider-wrap">
-          <input type="range" id="earn-slider" min="1" max="100" value="10" step="0.5" oninput="sliderUpdate()" />
-          <div class="slider-labels"><span>$1</span><span>$100</span></div>
+          <input type="range" id="earn-slider" min="1" max="200" value="10" step="0.5" oninput="sliderUpdate()" />
+          <div class="slider-labels"><span>$1</span><span>$200</span></div>
         </div>
       </div>
 
@@ -1497,7 +1497,7 @@
 
     let earn = parseFloat(earnInput.value) || 0;
     earn = Math.max(0.50, earn);
-    slider.value = Math.min(earn, 100);
+    slider.value = Math.min(earn, 200);
 
     // Formula: listing = earn / 0.93
     const listing = earn / 0.93;
@@ -1842,22 +1842,25 @@
   ];
   let msgIndex = 0;
 
+  let edwinVisible = false;
+
   function showTooltip() {
+    if (!edwinVisible || chatOpen) return;
     const tip = document.getElementById('chat-tooltip');
-    if (!tip || chatOpen) return;
-    // Only show when Edwin is sitting in the button (not mid-animation)
-    const apple = document.getElementById('edwin-apple');
-    if (!apple) return;
-    // Check he's actually visible and centered
-    const style = window.getComputedStyle(apple);
-    if (style.opacity === '0') return;
+    if (!tip) return;
     tip.textContent = tooltipMessages[msgIndex % tooltipMessages.length];
     tip.style.display = 'block';
     msgIndex++;
     setTimeout(() => tip.style.display = 'none', 4000);
   }
 
+  function hideTooltip() {
+    const tip = document.getElementById('chat-tooltip');
+    if (tip) tip.style.display = 'none';
+  }
+
   function runBtnIdle(apple, trick) {
+    edwinVisible = true;
     resetBtn(apple);
     if (trick.cls === 'btn-flipin') apple.style.transformOrigin = 'center bottom';
     void apple.offsetWidth;
@@ -1873,6 +1876,10 @@
     const exitTrick = BTN_EXITS.find(t => t.cls === exitCls) || { dur: 1200 };
     const enterTrick = [...BTN_ENTERS, ...BTN_IDLE_TRICKS].find(t => t.cls === enterCls) || { dur: 1500 };
 
+    // He's leaving — hide tooltip immediately and mark invisible
+    edwinVisible = false;
+    hideTooltip();
+
     resetBtn(apple);
     void apple.offsetWidth;
     apple.classList.add(exitCls);
@@ -1882,7 +1889,6 @@
       apple.style.opacity = '0';
       apple.style.transform = '';
 
-      // Random pause gone: 1–4 seconds
       const pause = 1000 + Math.random() * 3000;
       setTimeout(() => {
         resetBtn(apple);
@@ -1892,8 +1898,9 @@
         setTimeout(() => {
           resetBtn(apple);
           btnBusy = false;
-          // Sometimes show tooltip after he arrives back
-          if (Math.random() < 0.4) setTimeout(showTooltip, 300);
+          edwinVisible = true;
+          // Show tooltip 40% of the time after he arrives
+          if (Math.random() < 0.4) setTimeout(showTooltip, 500);
           scheduleNextAction();
         }, enterTrick.dur + 200);
       }, pause);
@@ -1907,14 +1914,14 @@
     const apple = document.getElementById('edwin-apple');
     if (!apple) { btnBusy = false; return; }
 
-    // 40% idle trick, 60% exit+entrance pair
     if (Math.random() < 0.4) {
-      // Show tooltip when doing idle trick — he's visibly in the button
+      // Idle trick — he stays visible, safe to show tooltip
+      edwinVisible = true;
       if (Math.random() < 0.6) showTooltip();
       const trick = BTN_IDLE_TRICKS[Math.floor(Math.random() * BTN_IDLE_TRICKS.length)];
       runBtnIdle(apple, trick);
     } else {
-      // Exit+entrance pair — no tooltip, he's leaving!
+      // Exit+entrance pair — tooltip hidden until he returns
       let idx;
       do { idx = Math.floor(Math.random() * BTN_PAIRS.length); } while (idx === lastPairIdx && BTN_PAIRS.length > 1);
       lastPairIdx = idx;
@@ -1946,7 +1953,7 @@
       apple.classList.remove('enter-grow');
       apple.style.opacity = '1';
       apple.style.transform = '';
-      // Now start the random idle system
+      edwinVisible = true;
       scheduleNextAction();
     }, 1400);
   }, 800);
