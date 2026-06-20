@@ -1844,7 +1844,13 @@
 
   function showTooltip() {
     const tip = document.getElementById('chat-tooltip');
-    if (!tip) return;
+    if (!tip || chatOpen) return;
+    // Only show when Edwin is sitting in the button (not mid-animation)
+    const apple = document.getElementById('edwin-apple');
+    if (!apple) return;
+    // Check he's actually visible and centered
+    const style = window.getComputedStyle(apple);
+    if (style.opacity === '0') return;
     tip.textContent = tooltipMessages[msgIndex % tooltipMessages.length];
     tip.style.display = 'block';
     msgIndex++;
@@ -1886,6 +1892,8 @@
         setTimeout(() => {
           resetBtn(apple);
           btnBusy = false;
+          // Sometimes show tooltip after he arrives back
+          if (Math.random() < 0.4) setTimeout(showTooltip, 300);
           scheduleNextAction();
         }, enterTrick.dur + 200);
       }, pause);
@@ -1899,14 +1907,14 @@
     const apple = document.getElementById('edwin-apple');
     if (!apple) { btnBusy = false; return; }
 
-    // Show speech bubble randomly (50% chance)
-    if (Math.random() < 0.5) showTooltip();
-
     // 40% idle trick, 60% exit+entrance pair
     if (Math.random() < 0.4) {
+      // Show tooltip when doing idle trick — he's visibly in the button
+      if (Math.random() < 0.6) showTooltip();
       const trick = BTN_IDLE_TRICKS[Math.floor(Math.random() * BTN_IDLE_TRICKS.length)];
       runBtnIdle(apple, trick);
     } else {
+      // Exit+entrance pair — no tooltip, he's leaving!
       let idx;
       do { idx = Math.floor(Math.random() * BTN_PAIRS.length); } while (idx === lastPairIdx && BTN_PAIRS.length > 1);
       lastPairIdx = idx;
