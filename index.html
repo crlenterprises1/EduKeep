@@ -1861,7 +1861,9 @@
 
   function resetBtn(apple) {
     apple.classList.remove(...ALL_BTN_CLASSES);
-    apple.style.cssText = '';
+    apple.style.animation = '';
+    apple.style.transform = '';
+    apple.style.opacity = '1';
     apple.style.transformOrigin = 'center center';
   }
 
@@ -1880,15 +1882,15 @@
     void apple.offsetWidth;
     apple.classList.add(trick.cls);
     setTimeout(() => {
-      apple.classList.remove(trick.cls);
-      apple.style.cssText = '';
+      resetBtn(apple);
       btnBusy = false;
-    }, trick.dur + 100);
+      scheduleNextAction();
+    }, trick.dur + 200);
   }
 
   function runBtnPair(apple, exitCls, enterCls) {
-    const exitTrick = BTN_EXITS.find(t=>t.cls===exitCls) || {dur:1200};
-    const enterTrick = [...BTN_ENTERS, ...BTN_IDLE_TRICKS].find(t=>t.cls===enterCls) || {dur:1500};
+    const exitTrick = BTN_EXITS.find(t => t.cls === exitCls) || { dur: 1200 };
+    const enterTrick = [...BTN_ENTERS, ...BTN_IDLE_TRICKS].find(t => t.cls === enterCls) || { dur: 1500 };
 
     resetBtn(apple);
     void apple.offsetWidth;
@@ -1899,7 +1901,7 @@
       apple.style.opacity = '0';
       apple.style.transform = '';
 
-      // Random pause between exit and entrance: 1–4 seconds
+      // Random pause gone: 1–4 seconds
       const pause = 1000 + Math.random() * 3000;
       setTimeout(() => {
         resetBtn(apple);
@@ -1907,10 +1909,10 @@
         void apple.offsetWidth;
         apple.classList.add(enterCls);
         setTimeout(() => {
-          apple.classList.remove(enterCls);
-          apple.style.cssText = '';
+          resetBtn(apple);
           btnBusy = false;
-        }, enterTrick.dur + 100);
+          scheduleNextAction();
+        }, enterTrick.dur + 200);
       }, pause);
     }, exitTrick.dur);
   }
@@ -1922,16 +1924,16 @@
     const apple = document.getElementById('edwin-apple');
     if (!apple) { btnBusy = false; return; }
 
-    // Show speech bubble randomly (60% chance)
-    if (Math.random() < 0.6) showTooltip();
+    // Show speech bubble randomly (50% chance)
+    if (Math.random() < 0.5) showTooltip();
 
-    // 40% chance of idle trick, 60% chance of exit+entrance pair
+    // 40% idle trick, 60% exit+entrance pair
     if (Math.random() < 0.4) {
       const trick = BTN_IDLE_TRICKS[Math.floor(Math.random() * BTN_IDLE_TRICKS.length)];
       runBtnIdle(apple, trick);
     } else {
       let idx;
-      do { idx = Math.floor(Math.random() * BTN_PAIRS.length); } while (idx === lastPairIdx);
+      do { idx = Math.floor(Math.random() * BTN_PAIRS.length); } while (idx === lastPairIdx && BTN_PAIRS.length > 1);
       lastPairIdx = idx;
       const [exitCls, enterCls] = BTN_PAIRS[idx];
       runBtnPair(apple, exitCls, enterCls);
@@ -1940,21 +1942,15 @@
 
   function scheduleNextAction() {
     if (chatOpen) return;
-    // Random interval: 15–45 seconds
-    const delay = 15000 + Math.random() * 30000;
+    // Random wait before next action: 8–25 seconds
+    const delay = 8000 + Math.random() * 17000;
     setTimeout(() => {
-      doButtonAction();
-      // Schedule next after current action completes
-      const longestPossible = 6600 + 4000 + 1700; // flipin + max pause + enter
-      setTimeout(scheduleNextAction, longestPossible);
+      if (!chatOpen) doButtonAction();
     }, delay);
   }
 
-  // Kick off after 8 seconds
-  setTimeout(() => {
-    doButtonAction();
-    scheduleNextAction();
-  }, 8000);
+  // First action after 6 seconds
+  setTimeout(() => { doButtonAction(); }, 6000);
 
 
 </script>
