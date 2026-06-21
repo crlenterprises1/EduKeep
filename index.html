@@ -1989,8 +1989,8 @@
           resetBtn(apple);
           btnBusy = false;
           edwinVisible = true;
-          // Show tooltip 40% of the time after he arrives
-          if (Math.random() < 0.4) setTimeout(showTooltip, 500);
+          // Always say something after arriving
+          setTimeout(showTooltip, 500);
           scheduleNextAction();
         }, enterTrick.dur + 200);
       }, pause);
@@ -2005,9 +2005,9 @@
     if (!apple) { btnBusy = false; return; }
 
     if (Math.random() < 0.6) {
-      // Idle trick — he stays visible, safe to show tooltip
+      // Idle trick — always show tooltip, he's right there!
       edwinVisible = true;
-      if (Math.random() < 0.7) showTooltip();
+      showTooltip();
       const trick = BTN_IDLE_TRICKS[Math.floor(Math.random() * BTN_IDLE_TRICKS.length)];
       runBtnIdle(apple, trick);
     } else {
@@ -2033,7 +2033,6 @@
   setTimeout(() => {
     const apple = document.getElementById('edwin-apple');
     if (!apple) return;
-    // Start hidden, do enter-grow as first appearance
     apple.style.opacity = '0';
     apple.style.transform = '';
     apple.style.transformOrigin = 'center center';
@@ -2044,6 +2043,8 @@
       apple.style.opacity = '1';
       apple.style.transform = '';
       edwinVisible = true;
+      // Always say hi on first appearance
+      setTimeout(showTooltip, 600);
       scheduleNextAction();
     }, 1400);
   }, 800);
