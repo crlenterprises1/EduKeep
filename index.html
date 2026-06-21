@@ -1867,74 +1867,7 @@
     showTyping();
     const t = text.toLowerCase().trim();
 
-    // ── Name detection — works anywhere, any time, typed only ──
-    if (!fromButton) {
-      const nameMatch =
-        t.match(/^(?:i'm|i am|my name is|call me|name's|names|it's|its)\s+([a-z]+)/i) ||
-        t.match(/^([a-z]+)$/) ||                          // single word = probably a name
-        t.match(/^([a-z]+)[!.,]?\s*$/i) ||               // single word with punctuation
-        (awaitingName && t.match(/^([a-z]+(?:\s+[a-z]+)?)/i)); // awaiting + anything
-
-      if (nameMatch) {
-        const raw = nameMatch[1].trim();
-        // Ignore common non-name words
-        const notNames = ['hi','hey','hello','yes','no','ok','okay','sure','what','how','when','why','who','where','the','and','but','for','you','are','can','do','is','it','my','me'];
-        if (!notNames.includes(raw.toLowerCase())) {
-          awaitingName = false;
-          const firstName = raw.split(/\s+/)[0];
-          userName = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
-          setTimeout(() => {
-            removeTyping();
-            addMessage(`${userName}! 🍎 What a great name — so nice to meet you, ${userName}!\n\nI'm here to help with anything about EduKeep. You can ask me:\n• How does the 93% payout work?\n• What can I sell?\n• How do we compare to TPT?\n• How do I get paid?\n\nWhat would you like to know?`, 'bot');
-            setTimeout(() => playTrick('shy'), 200);
-          }, 800);
-          return;
-        }
-      }
-    }
-
-    // Clear awaiting flag if they asked a real question instead
-    if (awaitingName) awaitingName = false;
-
-    // ── Slang check — before FAQ lookup ──
-    const slang = getSlang(text);
-    if (slang && !awaitingName) {
-      setTimeout(() => {
-        removeTyping();
-        addMessage(slang.answer, 'bot');
-        setTimeout(() => playTrick(slang.trick || 'bounce'), 200);
-      }, 500);
-      return;
-    }
-
-    // ── Trick mapping ──
-    let trick = 'bounce';
-    if (/hi|hello|hey|who are you|what are you/.test(t))          trick = 'wiggle';
-    else if (/93|percent|fee|payout|keep|earn|money|pay/.test(t)) trick = 'flip-y';
-    else if (/how.*work|how does|explain|what is/.test(t))        trick = 'roll';
-    else if (/sell|resource|product|upload|file|type/.test(t))    trick = 'warp';
-    else if (/thank|thanks|awesome|great|love|perfect/.test(t))   trick = 'shy';
-    else if (/tpt|teachers pay|compare|competition/.test(t))      trick = 'shakeno';
-    else if (/human|robot|real|ai|bot/.test(t))                   trick = 'orbit';
-    else if (/dance|trick|fun|cool|wow/.test(t))                  trick = 'flip-x';
-    else if (/when|launch|open|soon|available/.test(t))           trick = 'nod';
-    else if (/name|called|who am|remember/.test(t) && userName)   trick = 'wiggle';
-
-    // ── Name recognition mid-conversation ──
-    // Detect "my name is X" even mid-conversation
-    const midNameMatch = !fromButton && t.match(/(?:my name is|i'm|i am|call me)\s+([a-zA-Z]+)/i);
-    if (midNameMatch) {
-      const newName = midNameMatch[1].charAt(0).toUpperCase() + midNameMatch[1].slice(1).toLowerCase();
-      userName = newName;
-      setTimeout(() => {
-        removeTyping();
-        addMessage(`${userName}! 🍎 Got it — great to officially meet you, ${userName}! What would you like to know about EduKeep?`, 'bot');
-        setTimeout(() => playTrick('shy'), 200);
-      }, 600);
-      return;
-    }
-
-    // ── "What's my name?" ──
+    // ── PRIORITY 1: "What's my name?" check ──
     if (/what.*my name|do you know my name|remember my name|who am i/i.test(t)) {
       setTimeout(() => {
         removeTyping();
@@ -1950,15 +1883,96 @@
       return;
     }
 
+    // ── PRIORITY 2: Explicit name phrases — "my name is X", "I'm X", "call me X" ──
+    // These work anytime, typed only, regardless of awaitingName
+    if (!fromButton) {
+      const explicitName = t.match(/(?:my name is|i'm|i am|call me|name's)\s+([a-zA-Z]+)/i);
+      if (explicitName) {
+        const newName = explicitName[1].charAt(0).toUpperCase() + explicitName[1].slice(1).toLowerCase();
+        userName = newName;
+        awaitingName = false;
+        setTimeout(() => {
+          removeTyping();
+          addMessage(`${userName}! 🍎 What a great name — so nice to meet you, ${userName}!\n\nWhat would you like to know about EduKeep?`, 'bot');
+          setTimeout(() => playTrick('shy'), 200);
+        }, 700);
+        return;
+      }
+    }
+
+    // ── PRIORITY 3: Slang ──
+    const slang = getSlang(text);
+    if (slang) {
+      awaitingName = false;
+      setTimeout(() => {
+        removeTyping();
+        addMessage(slang.answer, 'bot');
+        setTimeout(() => playTrick(slang.trick || 'bounce'), 200);
+      }, 500);
+      return;
+    }
+
+    // ── PRIORITY 4: FAQ keywords ──
+    const faqAnswer = getAnswer(text);
+    const isFallback = faqAnswer === fallback || faqAnswer.includes('That\'s a great question');
+
+    if (!isFallback) {
+      awaitingName = false;
+      let trick = 'bounce';
+      if (/hi|hello|hey|who are you|what are you/.test(t))          trick = 'wiggle';
+      else if (/93|percent|payout|keep|earn|money|pay/.test(t))     trick = 'flip-y';
+      else if (/how.*work|how does|explain|what is/.test(t))        trick = 'roll';
+      else if (/sell|resource|product|upload|file|type/.test(t))    trick = 'warp';
+      else if (/thank|thanks|awesome|great|love|perfect/.test(t))   trick = 'shy';
+      else if (/tpt|teachers pay|compare|versus|better/.test(t))    trick = 'shakeno';
+      else if (/human|robot|real|ai|bot/.test(t))                   trick = 'orbit';
+      else if (/dance|trick|fun|cool|wow/.test(t))                  trick = 'flip-x';
+      else if (/when|launch|open|soon|available/.test(t))           trick = 'nod';
+      else if (/cost|fee|join|sign|36|member/.test(t))              trick = 'flip-y';
+      else if (/secure|safe|trust|protect|privacy/.test(t))         trick = 'nod';
+      setTimeout(() => {
+        removeTyping();
+        let answer = faqAnswer;
+        if (userName && !answer.includes(userName) && Math.random() < 0.35) {
+          answer = `${userName}, ${answer.charAt(0).toLowerCase()}${answer.slice(1)}`;
+        }
+        addMessage(answer, 'bot');
+        setTimeout(() => playTrick(trick), 200);
+      }, 600);
+      return;
+    }
+
+    // ── PRIORITY 5: Name capture — only when awaitingName AND typed AND not a keyword ──
+    if (awaitingName && !fromButton) {
+      // Build exclusion list — anything that's a known keyword or slang
+      const notNames = [
+        'hi','hey','hello','yes','no','ok','okay','sure','what','how','when','why',
+        'who','where','the','and','but','for','you','are','can','do','is','it','my',
+        'me','lol','lmao','omg','wtf','brb','afk','ty','thx','idk','tbh','imo',
+        'fyi','btw','gg','cool','nice','bye','cya','later','yeah','yep','nope','nah',
+        'tpt','93','sell','pay','paid','fee','cost','join','when','launch','safe',
+        'test','testing','wow','fire','dope','sick','awesome','amazing'
+      ];
+      const firstWord = t.split(/\s+/)[0].replace(/[^a-z]/gi,'');
+      if (firstWord && !notNames.includes(firstWord.toLowerCase()) && /^[a-zA-Z]+$/.test(firstWord)) {
+        const firstName = firstWord.charAt(0).toUpperCase() + firstWord.slice(1).toLowerCase();
+        userName = firstName;
+        awaitingName = false;
+        setTimeout(() => {
+          removeTyping();
+          addMessage(`${userName}! 🍎 What a great name — so nice to meet you, ${userName}!\n\nI'm here to help with anything about EduKeep. You can ask me:\n• How does the 93% payout work?\n• What can I sell?\n• How do we compare to TPT?\n• How do I get paid?\n\nWhat would you like to know?`, 'bot');
+          setTimeout(() => playTrick('shy'), 200);
+        }, 800);
+        return;
+      }
+    }
+
+    // ── PRIORITY 6: Fallback ──
+    awaitingName = false;
     setTimeout(() => {
       removeTyping();
-      let answer = getAnswer(text);
-      // Personalise occasionally
-      if (userName && !answer.includes(userName) && Math.random() < 0.35) {
-        answer = `${userName}, ${answer.charAt(0).toLowerCase()}${answer.slice(1)}`;
-      }
-      addMessage(answer, 'bot');
-      setTimeout(() => playTrick(trick), 200);
+      addMessage(faqAnswer, 'bot');
+      setTimeout(() => playTrick('tremble'), 200);
     }, 600);
   }
 
