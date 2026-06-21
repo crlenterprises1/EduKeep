@@ -1886,15 +1886,34 @@
     }
 
     // ── PRIORITY 1b: FAQ menu / help ──
-    if (/^(faq|menu|help|options|questions|what can you|what do you know|topics)$/i.test(t) ||
-        /show.*faq|show.*menu|show.*options|list.*question|back to menu/i.test(t)) {
+    if (/\bfaq\b|\bmenu\b|\bhelp\b|\boptions\b|\btopics\b|what can you|what do you know|show.*question|list.*question|back to menu|start over|beginning|main menu/i.test(t)) {
       setTimeout(() => {
         removeTyping();
         const name = userName ? `${userName}, h` : 'H';
-        addMessage(`${name}ere's what I can help you with! 👇 Tap any question below or just type away:`, 'bot');
-        document.getElementById('suggestions').style.display = 'flex';
+        addMessage(`${name}ere are my favorite questions to answer! 👇 Tap any one or just type away:`, 'bot');
+        const sugg = document.getElementById('suggestions');
+        sugg.style.display = 'flex';
+        sugg.style.animation = 'fadeIn 0.4s ease';
         setTimeout(() => playTrick('bounce'), 200);
       }, 500);
+      return;
+    }
+
+    // ── PRIORITY 1c: EdWin easter egg! ──
+    if (!fromButton && /^edwin$/i.test(t.trim())) {
+      awaitingName = false;
+      userName = 'Edwin';
+      const edwinReplies = [
+        `EDWIN?! 🍎🍎🍎 NO WAY — that's MY name!!! You are in GREAT company, Edwin!! THE best name in the entire world if I do say so myself!! 😄\n\nSo wonderful to meet you, Edwin — we're practically family! What would you like to know?`,
+        `SHUT THE FRONT DOOR — your name is EDWIN?! 🍎 That is THE greatest name ever given to any human being in all of history! I may be slightly biased... 😄\n\nWelcome, Edwin! What can I help you with?`,
+        `Edwin... EDWIN!!! 🍎🎉 That is hands down the BEST name I have ever heard!! We share a name — this is the greatest day!! 😄\n\nSo what would you like to know, my fellow Edwin?`,
+      ];
+      const reply = edwinReplies[Math.floor(Math.random() * edwinReplies.length)];
+      setTimeout(() => {
+        removeTyping();
+        addMessage(reply, 'bot');
+        setTimeout(() => playTrick('flip-x'), 200);
+      }, 600);
       return;
     }
 
@@ -1995,6 +2014,22 @@
         const firstName = firstWord.charAt(0).toUpperCase() + firstWord.slice(1).toLowerCase();
         userName = firstName;
         awaitingName = false;
+
+        // Special EdWin easter egg!
+        if (firstName.toLowerCase() === 'edwin') {
+          const edwinReplies = [
+            `EDWIN?! 🍎🍎🍎 THAT IS MY NAME!!! You are in GREAT company — THE best name in the entire world!! 😄\n\nSo wonderful to meet you, Edwin — we're practically family! What would you like to know?`,
+            `WAIT — your name is EDWIN?! 🍎 THE greatest name ever given to any human being in history! I may be slightly biased... 😄\n\nWelcome, Edwin! What can I help you with?`,
+            `Edwin... EDWIN!!! 🍎🎉 THE BEST NAME EVER!! We share a name — this is the greatest day!! 😄\n\nWhat would you like to know, my fellow Edwin?`,
+          ];
+          const reply = edwinReplies[Math.floor(Math.random() * edwinReplies.length)];
+          setTimeout(() => {
+            removeTyping();
+            addMessage(reply, 'bot');
+            setTimeout(() => playTrick('flip-x'), 200);
+          }, 600);
+          return;
+        }
 
         // Common names — normal warm response
         const commonNames = [
