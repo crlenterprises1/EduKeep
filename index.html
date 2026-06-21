@@ -1603,12 +1603,127 @@
     }
   ];
 
-  const fallback = `That's a great question — and I want to make sure you get the right answer! Our team would love to help with that one. 🍎\n\nJoin the waitlist on this page and we'll be in touch directly. In the meantime try asking me things like:\n• "How does 93% work?"\n• "What can I sell?"\n• "How do I get paid?"\n• "How does EduKeep compare to TPT?"`;
+  // ── Slang & casual text responses ──
+  const slangResponses = [
+    {
+      keys: ['lol','lmao','lmfao','haha','hehe','😂','🤣','😆'],
+      answer: `Ha! 😄 Glad I could entertain! But seriously — keeping 93% of your earnings is NO joke. What would you like to know?`,
+      trick: 'wiggle'
+    },
+    {
+      keys: ['brb','be right back'],
+      answer: `No worries, I'll be right here! 🍎 Take your time!`,
+      trick: 'nod'
+    },
+    {
+      keys: ['omg','oh my god','oh my gosh','no way','seriously','whoa','wow'],
+      answer: `RIGHT?! 🍎 93% is pretty jaw-dropping when you're used to giving away 45%! What else can I tell you?`,
+      trick: 'bounce'
+    },
+    {
+      keys: ['wtf','what the heck','what the heck','say what','excuse me'],
+      answer: `I know, I know — 93% sounds almost too good to be true! But it's real. 🍎 $36 once and 93% forever. What would you like to know?`,
+      trick: 'squash'
+    },
+    {
+      keys: ['ty','thx','thnks','thnx','tysm','ty so much','thanks so much'],
+      answer: `You're so welcome! 🍎 That's what I'm here for! Anything else I can help with?`,
+      trick: 'shy'
+    },
+    {
+      keys: ['nvm','nevermind','never mind','forget it','nah'],
+      answer: `No worries at all! 😊 I'm here whenever you need me. Just ask!`,
+      trick: 'nod'
+    },
+    {
+      keys: ['idk','i dont know','i don\'t know','not sure','dunno'],
+      answer: `That's okay! That's what I'm here for. 🍎 Try asking me:\n• "How does 93% work?"\n• "What can I sell?"\n• "How do I get paid?"`,
+      trick: 'bounce'
+    },
+    {
+      keys: ['imo','imho','tbh','to be honest','honestly'],
+      answer: `Honestly? Same. 😄 Teachers deserve better than 45% — that's exactly why EduKeep exists! What would you like to know?`,
+      trick: 'wiggle'
+    },
+    {
+      keys: ['asap','right away','urgently','hurry'],
+      answer: `On it! 🍎 Ask away — I'm all ears!`,
+      trick: 'bounce'
+    },
+    {
+      keys: ['fyi','just so you know','heads up','btw','by the way'],
+      answer: `Good to know! And FYI — EduKeep gives you 93% of every sale. 😄 What would you like to know?`,
+      trick: 'nod'
+    },
+    {
+      keys: ['😊','😁','😃','😀','🙂','☺'],
+      answer: `That smile is contagious! 😊🍎 What can I help you with today?`,
+      trick: 'heartbeat'
+    },
+    {
+      keys: ['😢','😭','😞','😔','😟','ugh','ughhh'],
+      answer: `Aw, don't be sad! 🍎 If TPT fees have you down, EduKeep might be exactly what you need. 93% forever! What would you like to know?`,
+      trick: 'shy'
+    },
+    {
+      keys: ['🔥','fire','lit','sick','dope','awesome','amazing','incredible'],
+      answer: `Right?! 🔥🍎 93% IS fire! What else can I tell you about EduKeep?`,
+      trick: 'flip-x'
+    },
+    {
+      keys: ['gg','good game','well played'],
+      answer: `GG indeed! 🍎 And the best play? Keeping 93% of your earnings instead of giving half to TPT. What would you like to know?`,
+      trick: 'bounce'
+    },
+    {
+      keys: ['afk','away from keyboard','back','i\'m back','i am back'],
+      answer: `Welcome back! 🍎 Ready to talk EduKeep whenever you are!`,
+      trick: 'wiggle'
+    },
+    {
+      keys: ['cool','nice','neat','sweet','rad'],
+      answer: `Very cool indeed! 😄🍎 What would you like to know about EduKeep?`,
+      trick: 'nod'
+    },
+    {
+      keys: ['yep','yup','yeah','yes','sure','absolutely','definitely','of course'],
+      answer: `${userName ? userName + ', l' : 'L'}et's do it! 🍎 What would you like to know?`,
+      trick: 'bounce'
+    },
+    {
+      keys: ['nope','nah','no','not really','not yet'],
+      answer: `No worries! 😊 I'm here whenever you're ready. Just ask away!`,
+      trick: 'nod'
+    },
+    {
+      keys: ['ok','okay','k','kk','got it','gotcha','copy','roger'],
+      answer: `${userName ? userName + '! ' : ''}Awesome! 🍎 What would you like to know about EduKeep?`,
+      trick: 'bounce'
+    },
+    {
+      keys: ['bye','goodbye','see ya','see you','cya','later','ttyl','peace'],
+      answer: `${userName ? `Bye ${userName}!` : 'Bye!'} 👋🍎 Come back anytime — I'll be right here!`,
+      trick: 'shy'
+    },
+    {
+      keys: ['test','testing','hello world','is this on','is this working','anybody there'],
+      answer: `Loud and clear! 🍎 EdWin is ON and ready to help! What would you like to know about EduKeep?`,
+      trick: 'pop'
+    },
+  ];
 
   function getGreeting() {
     if (userName) return `Hey ${userName}! 👋 Great to chat with you again!\n\nI can help with questions about EduKeep — fees, payouts, what to sell, how we compare to TPT, and more. What would you like to know?`;
     awaitingName = true;
     return `Hey there! 👋 I'm EdWin, EduKeep's assistant!\n\nWhat's your name? I'd love to know who I'm chatting with! 😊`;
+  }
+
+  function getSlang(input) {
+    const q = input.toLowerCase().trim();
+    for (const s of slangResponses) {
+      if (s.keys.some(k => q.includes(k) || q === k)) return s;
+    }
+    return null;
   }
 
   function getAnswer(input) {
@@ -1780,6 +1895,17 @@
 
     // Clear awaiting flag if they asked a real question instead
     if (awaitingName) awaitingName = false;
+
+    // ── Slang check — before FAQ lookup ──
+    const slang = getSlang(text);
+    if (slang && !awaitingName) {
+      setTimeout(() => {
+        removeTyping();
+        addMessage(slang.answer, 'bot');
+        setTimeout(() => playTrick(slang.trick || 'bounce'), 200);
+      }, 500);
+      return;
+    }
 
     // ── Trick mapping ──
     let trick = 'bounce';
