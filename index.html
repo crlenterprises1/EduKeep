@@ -1712,6 +1712,8 @@
     },
   ];
 
+  const fallback = `That's a great question — and I want to make sure you get the right answer! Our team would love to help with that one. 🍎\n\nJoin the waitlist on this page and we'll be in touch directly. In the meantime try asking me things like:\n• "How does 93% work?"\n• "What can I sell?"\n• "How do I get paid?"\n• "How does EduKeep compare to TPT?"`;
+
   function getGreeting() {
     if (userName) return `Hey ${userName}! 👋 Great to chat with you again!\n\nI can help with questions about EduKeep — fees, payouts, what to sell, how we compare to TPT, and more. What would you like to know?`;
     awaitingName = true;
