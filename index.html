@@ -1570,7 +1570,7 @@
       answer: `Your work is 100% yours — always. EduKeep never claims any ownership of your resources. You keep full rights and can sell the same materials on TPT, your own website, anywhere else you want. 👏\n\nWe believe teachers should control their own work. Full stop.`
     },
     {
-      keys: ['launch', 'when', 'open', 'live', 'available', 'start', 'ready', 'release'],
+      keys: ['launch', 'when launch', 'when does', 'when will', 'open', 'live', 'available', 'start selling', 'ready', 'release', 'go live'],
       answer: `We're in pre-launch right now, building the platform and gathering our founding seller community. Join the waitlist on this page to be the first to know when we go live! 🚀\n\nFounding sellers who join the waitlist lock in the $36 one-time rate. We can't promise this price forever, so earlier is better.`
     },
     {
@@ -1885,6 +1885,19 @@
       return;
     }
 
+    // ── PRIORITY 1b: FAQ menu / help ──
+    if (/^(faq|menu|help|options|questions|what can you|what do you know|topics)$/i.test(t) ||
+        /show.*faq|show.*menu|show.*options|list.*question|back to menu/i.test(t)) {
+      setTimeout(() => {
+        removeTyping();
+        const name = userName ? `${userName}, h` : 'H';
+        addMessage(`${name}ere's what I can help you with! 👇 Tap any question below or just type away:`, 'bot');
+        document.getElementById('suggestions').style.display = 'flex';
+        setTimeout(() => playTrick('bounce'), 200);
+      }, 500);
+      return;
+    }
+
     // ── PRIORITY 2: Explicit name phrases — "my name is X", "I'm X", "call me X" ──
     // These work anytime, typed only, regardless of awaitingName
     if (!fromButton) {
@@ -1893,9 +1906,15 @@
         const newName = explicitName[1].charAt(0).toUpperCase() + explicitName[1].slice(1).toLowerCase();
         userName = newName;
         awaitingName = false;
+        const replies = [
+          `${userName}! 🍎 What a great name — so nice to meet you, ${userName}!\n\nWhat would you like to know about EduKeep?`,
+          `${userName}! Love it! 🍎 Great to officially meet you, ${userName}! What can I help you with?`,
+          `${userName}! 🍎 Perfect — I'll remember that! So what would you like to know?`,
+        ];
+        const reply = replies[Math.floor(Math.random() * replies.length)];
         setTimeout(() => {
           removeTyping();
-          addMessage(`${userName}! 🍎 What a great name — so nice to meet you, ${userName}!\n\nWhat would you like to know about EduKeep?`, 'bot');
+          addMessage(reply, 'bot');
           setTimeout(() => playTrick('shy'), 200);
         }, 700);
         return;
@@ -1976,9 +1995,39 @@
         const firstName = firstWord.charAt(0).toUpperCase() + firstWord.slice(1).toLowerCase();
         userName = firstName;
         awaitingName = false;
+
+        // Common names — normal warm response
+        const commonNames = [
+          'james','john','robert','michael','william','david','richard','joseph','thomas','charles',
+          'mary','patricia','jennifer','linda','barbara','elizabeth','susan','jessica','sarah','karen',
+          'christopher','daniel','matthew','anthony','mark','donald','steven','paul','andrew','joshua',
+          'kevin','brian','george','timothy','ronald','edward','jason','jeffrey','ryan','jacob',
+          'emily','emma','olivia','sophia','ava','isabella','mia','abigail','madison','charlotte',
+          'ashley','amanda','melissa','stephanie','nicole','lisa','katherine','samantha','rachel','anna',
+          'craig','mike','chris','dave','dan','tom','jim','bob','joe','steve','scott','eric','adam',
+          'amy','joy','sue','kim','jen','beth','kate','anne','grace','faith','hope','rose'
+        ];
+
+        const isCommon = commonNames.includes(firstName.toLowerCase());
+
+        const commonResponses = [
+          `${firstName}! 🍎 So nice to meet you, ${firstName}!\n\nI'm here to help with anything about EduKeep. What would you like to know?`,
+          `${firstName}! What a great name! 🍎 Welcome!\n\nI can help with the 93% payout, what you can sell, how we compare to TPT, getting paid, and more. What would you like to know?`,
+          `Love it — ${firstName}! 🍎 Great to meet you!\n\nAsk me anything about EduKeep!`,
+        ];
+
+        const uniqueResponses = [
+          `${firstName}?! 🍎 Oh I LOVE that name — so unique and beautiful! Wonderful to meet you, ${firstName}!\n\nWhat would you like to know about EduKeep?`,
+          `${firstName}! What an absolutely gorgeous name — I've never met a ${firstName} before! 🍎 So lovely to meet you!\n\nWhat can I help you with today?`,
+          `Oh wow — ${firstName}! That is such a special name! 🍎 Truly one of a kind, just like you! Great to meet you, ${firstName}!\n\nWhat would you like to know about EduKeep?`,
+        ];
+
+        const responses = isCommon ? commonResponses : uniqueResponses;
+        const reply = responses[Math.floor(Math.random() * responses.length)];
+
         setTimeout(() => {
           removeTyping();
-          addMessage(`${userName}! 🍎 What a wonderful name — so nice to meet you, ${userName}!\n\nI'm here to help with anything about EduKeep. You can ask me:\n• How does the 93% payout work?\n• What can I sell?\n• How do we compare to TPT?\n• How do I get paid?\n\nWhat would you like to know?`, 'bot');
+          addMessage(reply, 'bot');
           setTimeout(() => playTrick('shy'), 200);
         }, 800);
         return;
