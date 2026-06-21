@@ -1944,29 +1944,54 @@
       return;
     }
 
-    // ── PRIORITY 5: Name capture — only when awaitingName AND typed AND not a keyword ──
+    // ── PRIORITY 5: Name capture — only when awaitingName AND typed ──
     if (awaitingName && !fromButton) {
-      // Build exclusion list — anything that's a known keyword or slang
+
+      // "not my name" / "not a name" / "wrong" / "no that's not" — re-ask
+      if (/not.*name|not.*me|that.*wrong|wrong.*name|not.*right|that.*not|no.*that|skip|pass|rather not|don't want/i.test(t)) {
+        setTimeout(() => {
+          removeTyping();
+          addMessage(`No worries! 😊 So what should I call you?`, 'bot');
+          setTimeout(() => playTrick('wiggle'), 200);
+          // awaitingName stays true
+        }, 600);
+        return;
+      }
+
+      // Exclusion list — known keywords, slang, common non-name words
       const notNames = [
         'hi','hey','hello','yes','no','ok','okay','sure','what','how','when','why',
         'who','where','the','and','but','for','you','are','can','do','is','it','my',
-        'me','lol','lmao','omg','wtf','brb','afk','ty','thx','idk','tbh','imo',
-        'fyi','btw','gg','cool','nice','bye','cya','later','yeah','yep','nope','nah',
-        'tpt','93','sell','pay','paid','fee','cost','join','when','launch','safe',
-        'test','testing','wow','fire','dope','sick','awesome','amazing'
+        'me','lol','lmao','lmfao','omg','wtf','brb','afk','ty','thx','idk','tbh',
+        'imo','fyi','btw','gg','cool','nice','bye','cya','later','yeah','yep','nope',
+        'nah','tpt','93','sell','pay','paid','fee','cost','join','when','launch',
+        'safe','test','testing','wow','fire','dope','sick','awesome','amazing',
+        'great','thanks','thank','sorry','help','need','want','tell','show','know'
       ];
-      const firstWord = t.split(/\s+/)[0].replace(/[^a-z]/gi,'');
-      if (firstWord && !notNames.includes(firstWord.toLowerCase()) && /^[a-zA-Z]+$/.test(firstWord)) {
+
+      // Take first word, strip punctuation
+      const firstWord = t.split(/\s+/)[0].replace(/[^a-zA-Z]/g,'');
+
+      if (firstWord.length >= 2 && /^[a-zA-Z]+$/.test(firstWord) && !notNames.includes(firstWord.toLowerCase())) {
         const firstName = firstWord.charAt(0).toUpperCase() + firstWord.slice(1).toLowerCase();
         userName = firstName;
         awaitingName = false;
         setTimeout(() => {
           removeTyping();
-          addMessage(`${userName}! 🍎 What a great name — so nice to meet you, ${userName}!\n\nI'm here to help with anything about EduKeep. You can ask me:\n• How does the 93% payout work?\n• What can I sell?\n• How do we compare to TPT?\n• How do I get paid?\n\nWhat would you like to know?`, 'bot');
+          addMessage(`${userName}! 🍎 What a wonderful name — so nice to meet you, ${userName}!\n\nI'm here to help with anything about EduKeep. You can ask me:\n• How does the 93% payout work?\n• What can I sell?\n• How do we compare to TPT?\n• How do I get paid?\n\nWhat would you like to know?`, 'bot');
           setTimeout(() => playTrick('shy'), 200);
         }, 800);
         return;
       }
+
+      // If nothing matched while awaiting name, re-ask gently
+      setTimeout(() => {
+        removeTyping();
+        addMessage(`Hmm, I didn't quite catch that! 😊 What should I call you?`, 'bot');
+        setTimeout(() => playTrick('wiggle'), 200);
+        // awaitingName stays true
+      }, 600);
+      return;
     }
 
     // ── PRIORITY 6: Fallback ──
