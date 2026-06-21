@@ -1429,7 +1429,7 @@
     </div>
 
     <div id="chat-messages">
-      <div class="msg bot">Hey there! 👋 I'm EdWin, EduKeep's assistant. I can answer questions about how we work, our fees, getting paid, what you can sell, and how we compare to TPT. Tap a question below or just ask away!</div>
+      <div class="msg bot">Hey there! 👋 I'm EdWin, EduKeep's assistant. What's your name? I'd love to know who I'm chatting with! 😊</div>
     </div>
 
     <div class="chat-suggestions" id="suggestions">
@@ -1442,8 +1442,8 @@
     </div>
 
     <div class="chat-input-row">
-      <input type="text" id="chat-input" placeholder="Ask a question..." onkeydown="if(event.key==='Enter') sendChat()" />
-      <button id="chat-send" onclick="sendChat()">➤</button>
+      <input type="text" id="chat-input" placeholder="Ask a question..." onkeydown="if(event.key==='Enter') sendMessage()" />
+      <button id="chat-send" onclick="sendMessage()">➤</button>
     </div>
   </div>
 
@@ -1538,6 +1538,9 @@
   calcUpdate();
 
 
+  let userName = null;
+  let awaitingName = false;
+
   const faqs = [
     {
       keys: ['93', 'percent', 'how much', 'payout', 'how does it work', 'work'],
@@ -1593,18 +1596,27 @@
     },
     {
       keys: ['hi', 'hello', 'hey', 'howdy', 'good morning', 'good afternoon', 'sup', 'what can you'],
-      answer: `Hey there! 👋 I'm EdWin, EduKeep's assistant. I can answer questions about how EduKeep works, our fees, getting paid, what you can sell, and how we compare to TPT.\n\nWhat would you like to know?`
+      answer: `__GREETING__`
     }
   ];
 
   const fallback = `That's a great question — and I want to make sure you get the right answer! Our team would love to help with that one. 🍎\n\nJoin the waitlist on this page and we'll be in touch directly. In the meantime try asking me things like:\n• "How does 93% work?"\n• "What can I sell?"\n• "How do I get paid?"\n• "How does EduKeep compare to TPT?"`;
 
+  function getGreeting() {
+    if (userName) return `Hey ${userName}! 👋 Great to chat with you again!\n\nI can help with questions about EduKeep — fees, payouts, what to sell, how we compare to TPT, and more. What would you like to know?`;
+    awaitingName = true;
+    return `Hey there! 👋 I'm EdWin, EduKeep's assistant!\n\nWhat's your name? I'd love to know who I'm chatting with! 😊`;
+  }
+
   function getAnswer(input) {
     const q = input.toLowerCase();
     for (const faq of faqs) {
-      if (faq.keys.some(k => q.includes(k))) return faq.answer;
+      if (faq.keys.some(k => q.includes(k))) {
+        const ans = faq.answer;
+        return ans === '__GREETING__' ? getGreeting() : ans.replace(/\$\{name\}/g, userName || 'friend');
+      }
     }
-    return fallback;
+    return fallback.replace(/\$\{name\}/g, userName || 'friend');
   }
 
   let chatOpen = false;
@@ -1616,6 +1628,8 @@
     if (chatOpen) {
       document.getElementById('chat-input').focus();
       setTimeout(() => playTrick('pop'), 100);
+      // Ask for name on first open if we don't know it
+      if (!userName && !awaitingName) awaitingName = true;
     }
   }
 
@@ -1727,21 +1741,44 @@
   // respondFAQ — pick trick based on topic after response
   function respondFAQ(text) {
     showTyping();
-    const t = text.toLowerCase();
-    let trick = 'bounce'; // default: happy bounce when answer arrives
-    if (/hi|hello|hey|who are you|what are you/.test(t))        trick = 'wiggle';
+    const t = text.toLowerCase().trim();
+
+    // Name capture — if we just asked for their name, this is the answer
+    if (awaitingName) {
+      awaitingName = false;
+      // Extract a clean first name — take first word, capitalize it
+      const cleaned = text.trim().replace(/^(i'm|i am|my name is|call me|it's|its)\s*/i, '');
+      const firstName = cleaned.split(/\s+/)[0];
+      userName = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
+      setTimeout(() => {
+        removeTyping();
+        addMessage(`${userName}! What a great name! 🍎 So nice to meet you, ${userName}!\n\nI can help with anything about EduKeep — how the 93% works, what you can sell, how we compare to TPT, getting paid, and more. What would you like to know?`, 'bot');
+        setTimeout(() => playTrick('shy'), 200);
+      }, 800);
+      return;
+    }
+
+    let trick = 'bounce';
+    if (/hi|hello|hey|who are you|what are you/.test(t))          trick = 'wiggle';
     else if (/93|percent|fee|payout|keep|earn|money|pay/.test(t)) trick = 'flip-y';
-    else if (/how.*work|how does|explain|what is/.test(t))       trick = 'roll';
-    else if (/sell|resource|product|upload|file|type/.test(t))   trick = 'warp';
-    else if (/thank|thanks|awesome|great|love|perfect/.test(t))  trick = 'shy';
-    else if (/tpt|teachers pay|compare|competition/.test(t))     trick = 'shakeno';
-    else if (/human|robot|real|ai|bot/.test(t))                  trick = 'orbit';
-    else if (/dance|trick|fun|cool|wow/.test(t))                 trick = 'flip-x';
-    else if (/when|launch|open|soon|available/.test(t))          trick = 'nod';
-    else if (/sorry|wrong|don't know|not sure|error/.test(t))    trick = 'tremble';
+    else if (/how.*work|how does|explain|what is/.test(t))        trick = 'roll';
+    else if (/sell|resource|product|upload|file|type/.test(t))    trick = 'warp';
+    else if (/thank|thanks|awesome|great|love|perfect/.test(t))   trick = 'shy';
+    else if (/tpt|teachers pay|compare|competition/.test(t))      trick = 'shakeno';
+    else if (/human|robot|real|ai|bot/.test(t))                   trick = 'orbit';
+    else if (/dance|trick|fun|cool|wow/.test(t))                  trick = 'flip-x';
+    else if (/when|launch|open|soon|available/.test(t))           trick = 'nod';
+    else if (/sorry|wrong|don't know|not sure|error/.test(t))     trick = 'tremble';
+
     setTimeout(() => {
       removeTyping();
-      addMessage(getAnswer(text), 'bot');
+      // Personalise the answer with name if we know it
+      let answer = getAnswer(text);
+      if (userName && !answer.includes(userName)) {
+        // Occasionally sprinkle their name into the response
+        if (Math.random() < 0.4) answer = `${userName}, ${answer.charAt(0).toLowerCase()}${answer.slice(1)}`;
+      }
+      addMessage(answer, 'bot');
       setTimeout(() => playTrick(trick), 200);
     }, 600);
   }
