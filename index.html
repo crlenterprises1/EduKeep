@@ -398,6 +398,8 @@
       bottom: 28px;
       right: 28px;
       z-index: 999;
+      /* Must be relative so tooltip positions against it */
+      isolation: isolate;
     }
 
     /* Initial bounce on load */
@@ -869,16 +871,17 @@
       position: absolute;
       bottom: 72px;
       right: 0;
-      background: var(--white);
-      border: 1px solid var(--border);
+      background: #ffffff;
+      border: 1px solid #d0e8d8;
       border-radius: 12px 12px 0 12px;
       padding: 10px 14px;
       font-size: 0.82rem;
       font-weight: 600;
-      color: var(--ink);
+      color: #1A1A1A;
       white-space: nowrap;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
       display: none;
+      z-index: 1000;
       animation: fadeIn 0.3s ease;
     }
     #chat-tooltip::after {
@@ -1725,7 +1728,13 @@
     document.getElementById('suggestions').style.display = 'none';
     addMessage(text, 'user');
     playTrick('spin');
-    setTimeout(() => respondFAQ(text), 400);
+    // FAQ button presses never count as name input
+    const wasAwaitingName = awaitingName;
+    awaitingName = false;
+    setTimeout(() => {
+      if (wasAwaitingName) awaitingName = false;
+      respondFAQ(text, true); // true = came from FAQ button, skip name capture
+    }, 400);
   }
 
   function sendMessage() {
@@ -1733,31 +1742,46 @@
     const text = input.value.trim();
     if (!text) return;
     input.value = '';
+    document.getElementById('suggestions').style.display = 'none';
     addMessage(text, 'user');
     playTrick('spin');
-    setTimeout(() => respondFAQ(text), 400);
+    setTimeout(() => respondFAQ(text, false), 400); // false = typed by user
   }
 
-  // respondFAQ — pick trick based on topic after response
-  function respondFAQ(text) {
+  function respondFAQ(text, fromButton) {
     showTyping();
     const t = text.toLowerCase().trim();
 
-    // Name capture — if we just asked for their name, this is the answer
-    if (awaitingName) {
-      awaitingName = false;
-      // Extract a clean first name — take first word, capitalize it
-      const cleaned = text.trim().replace(/^(i'm|i am|my name is|call me|it's|its)\s*/i, '');
-      const firstName = cleaned.split(/\s+/)[0];
-      userName = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
-      setTimeout(() => {
-        removeTyping();
-        addMessage(`${userName}! What a great name! 🍎 So nice to meet you, ${userName}!\n\nI can help with anything about EduKeep — how the 93% works, what you can sell, how we compare to TPT, getting paid, and more. What would you like to know?`, 'bot');
-        setTimeout(() => playTrick('shy'), 200);
-      }, 800);
-      return;
+    // ── Name detection — works anywhere, any time, typed only ──
+    if (!fromButton) {
+      const nameMatch =
+        t.match(/^(?:i'm|i am|my name is|call me|name's|names|it's|its)\s+([a-z]+)/i) ||
+        t.match(/^([a-z]+)$/) ||                          // single word = probably a name
+        t.match(/^([a-z]+)[!.,]?\s*$/i) ||               // single word with punctuation
+        (awaitingName && t.match(/^([a-z]+(?:\s+[a-z]+)?)/i)); // awaiting + anything
+
+      if (nameMatch) {
+        const raw = nameMatch[1].trim();
+        // Ignore common non-name words
+        const notNames = ['hi','hey','hello','yes','no','ok','okay','sure','what','how','when','why','who','where','the','and','but','for','you','are','can','do','is','it','my','me'];
+        if (!notNames.includes(raw.toLowerCase())) {
+          awaitingName = false;
+          const firstName = raw.split(/\s+/)[0];
+          userName = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
+          setTimeout(() => {
+            removeTyping();
+            addMessage(`${userName}! 🍎 What a great name — so nice to meet you, ${userName}!\n\nI'm here to help with anything about EduKeep. You can ask me:\n• How does the 93% payout work?\n• What can I sell?\n• How do we compare to TPT?\n• How do I get paid?\n\nWhat would you like to know?`, 'bot');
+            setTimeout(() => playTrick('shy'), 200);
+          }, 800);
+          return;
+        }
+      }
     }
 
+    // Clear awaiting flag if they asked a real question instead
+    if (awaitingName) awaitingName = false;
+
+    // ── Trick mapping ──
     let trick = 'bounce';
     if (/hi|hello|hey|who are you|what are you/.test(t))          trick = 'wiggle';
     else if (/93|percent|fee|payout|keep|earn|money|pay/.test(t)) trick = 'flip-y';
@@ -1768,15 +1792,44 @@
     else if (/human|robot|real|ai|bot/.test(t))                   trick = 'orbit';
     else if (/dance|trick|fun|cool|wow/.test(t))                  trick = 'flip-x';
     else if (/when|launch|open|soon|available/.test(t))           trick = 'nod';
-    else if (/sorry|wrong|don't know|not sure|error/.test(t))     trick = 'tremble';
+    else if (/name|called|who am|remember/.test(t) && userName)   trick = 'wiggle';
+
+    // ── Name recognition mid-conversation ──
+    // Detect "my name is X" even mid-conversation
+    const midNameMatch = !fromButton && t.match(/(?:my name is|i'm|i am|call me)\s+([a-zA-Z]+)/i);
+    if (midNameMatch) {
+      const newName = midNameMatch[1].charAt(0).toUpperCase() + midNameMatch[1].slice(1).toLowerCase();
+      userName = newName;
+      setTimeout(() => {
+        removeTyping();
+        addMessage(`${userName}! 🍎 Got it — great to officially meet you, ${userName}! What would you like to know about EduKeep?`, 'bot');
+        setTimeout(() => playTrick('shy'), 200);
+      }, 600);
+      return;
+    }
+
+    // ── "What's my name?" ──
+    if (/what.*my name|do you know my name|remember my name|who am i/i.test(t)) {
+      setTimeout(() => {
+        removeTyping();
+        if (userName) {
+          addMessage(`Of course! You're ${userName}! 🍎 How could I forget?`, 'bot');
+          setTimeout(() => playTrick('bounce'), 200);
+        } else {
+          addMessage(`I don't know your name yet! What should I call you? 😊`, 'bot');
+          awaitingName = true;
+          setTimeout(() => playTrick('wiggle'), 200);
+        }
+      }, 600);
+      return;
+    }
 
     setTimeout(() => {
       removeTyping();
-      // Personalise the answer with name if we know it
       let answer = getAnswer(text);
-      if (userName && !answer.includes(userName)) {
-        // Occasionally sprinkle their name into the response
-        if (Math.random() < 0.4) answer = `${userName}, ${answer.charAt(0).toLowerCase()}${answer.slice(1)}`;
+      // Personalise occasionally
+      if (userName && !answer.includes(userName) && Math.random() < 0.35) {
+        answer = `${userName}, ${answer.charAt(0).toLowerCase()}${answer.slice(1)}`;
       }
       addMessage(answer, 'bot');
       setTimeout(() => playTrick(trick), 200);
@@ -1951,10 +2004,10 @@
     const apple = document.getElementById('edwin-apple');
     if (!apple) { btnBusy = false; return; }
 
-    if (Math.random() < 0.4) {
+    if (Math.random() < 0.6) {
       // Idle trick — he stays visible, safe to show tooltip
       edwinVisible = true;
-      if (Math.random() < 0.6) showTooltip();
+      if (Math.random() < 0.7) showTooltip();
       const trick = BTN_IDLE_TRICKS[Math.floor(Math.random() * BTN_IDLE_TRICKS.length)];
       runBtnIdle(apple, trick);
     } else {
