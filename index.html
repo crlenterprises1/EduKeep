@@ -1723,7 +1723,13 @@
   function getSlang(input) {
     const q = input.toLowerCase().trim();
     for (const s of slangResponses) {
-      if (s.keys.some(k => q.includes(k) || q === k)) return s;
+      if (s.keys.some(k => {
+        // Single/short keys need word boundary check to avoid matching inside words
+        if (k.length <= 3 && /^[a-z]+$/.test(k)) {
+          return new RegExp(`\\b${k}\\b`).test(q);
+        }
+        return q.includes(k) || q === k;
+      })) return s;
     }
     return null;
   }
