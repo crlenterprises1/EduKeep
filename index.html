@@ -1260,9 +1260,10 @@
         Join the Waitlist →
       </button>
     </form>
-    <div id="msg-top" class="success-msg" style="display:none; margin-top:12px; background:var(--green-light); border:1px solid var(--green); border-radius:12px; padding:16px 20px; color:var(--green-dark); text-align:center;">
-      🍎 <strong>You are Now Ready to Keep What You Earn!!!</strong><br/>
-      <span style="font-size:0.88rem; color:var(--ink-soft);">Check your Email to Confirm!</span>
+    <div id="msg-top" class="success-msg" style="display:none; margin-top:12px; background:var(--green-light); border:2px solid var(--green); border-radius:12px; padding:18px 22px; color:var(--green-dark); text-align:center;">
+      <div style="font-size:1.6rem; margin-bottom:6px;">🍎</div>
+      <strong style="font-size:1.05rem; display:block; margin-bottom:5px;">Success!!!</strong>
+      <strong>Now check your Email to Confirm that YOU ARE READY to KEEP WHAT'S YOURS!!!</strong>
     </div>
     <div class="form-note">🔒 No spam. Unsubscribe anytime.</div>
   </div>
@@ -1493,14 +1494,21 @@
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: 'email_address=' + encodeURIComponent(email)
     })
-    .then(() => {
-      form.style.display = 'none';
-      document.getElementById(msgId).style.display = 'block';
-    })
-    .catch(() => {
-      form.style.display = 'none';
-      document.getElementById(msgId).style.display = 'block';
-    });
+    .then(() => { showBothSuccess(); })
+    .catch(() => { showBothSuccess(); });
+  }
+
+  function showBothSuccess() {
+    // Hide both forms
+    const topForm = document.querySelector('form[onsubmit*="msg-top"]');
+    const botForm = document.getElementById('form-bottom');
+    if (topForm) topForm.style.display = 'none';
+    if (botForm) botForm.style.display = 'none';
+    // Show both success messages
+    const msgTop = document.getElementById('msg-top');
+    const msgBot = document.getElementById('msg-bottom');
+    if (msgTop) msgTop.style.display = 'block';
+    if (msgBot) msgBot.style.display = 'block';
   }
 
   // ── Waitlist (legacy fallback) ──
