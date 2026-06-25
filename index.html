@@ -1248,11 +1248,22 @@
     </div>
   </div>
 
-  <!-- WAITLIST FORM — Kit embed styled to match EduKeep -->
+  <!-- WAITLIST FORM — custom form with success message -->
   <div class="waitlist-box" id="waitlist">
     <h2>Be FIRST to know when we launch!</h2>
     <p>Done giving 45% to other platforms? So are we.<br><br>Join teachers who want to keep what's theirs!!</p>
-    <script async data-uid="9a0ff0e7f4" src="https://edukeep.kit.com/9a0ff0e7f4/index.js"></script>
+    <form onsubmit="handleSubmit(event, 'msg-top')" style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:8px;">
+      <input type="email" placeholder="Enter your email address" required
+        style="flex:1; min-width:220px; padding:14px 18px; border-radius:10px; border:2px solid var(--border); font-size:0.95rem; color:var(--ink);"/>
+      <button type="submit"
+        style="padding:14px 24px; border-radius:10px; border:none; background:var(--green); color:#fff; font-weight:700; font-size:0.95rem; cursor:pointer; white-space:nowrap;">
+        Join the Waitlist →
+      </button>
+    </form>
+    <div id="msg-top" class="success-msg" style="display:none; margin-top:12px; background:var(--green-light); border:1px solid var(--green); border-radius:12px; padding:16px 20px; color:var(--green-dark); text-align:center;">
+      🍎 <strong>You are Now Ready to Keep What You Earn!!!</strong><br/>
+      <span style="font-size:0.88rem; color:var(--ink-soft);">Check your Email to Confirm!</span>
+    </div>
     <div class="form-note">🔒 No spam. Unsubscribe anytime.</div>
   </div>
 </section>
@@ -1402,7 +1413,19 @@
   <h2>Ready to stop giving 45% away?</h2>
   <p>Join for <strong style="color:var(--gold);">$36 once</strong> — then sell forever and keep 93%. No renewals. No surprises.</p>
   <div style="max-width:440px; margin: 0 auto;">
-    <script async data-uid="9a0ff0e7f4" src="https://edukeep.kit.com/9a0ff0e7f4/index.js"></script>
+    <form id="form-bottom" onsubmit="handleSubmit(event, 'msg-bottom')" style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+      <input type="email" placeholder="Enter your email address" required
+        style="flex:1; min-width:220px; padding:14px 18px; border-radius:10px; border:none; font-size:0.95rem; background:#d4eedd; color:var(--ink);"/>
+      <button type="submit" class="btn-primary"
+        style="padding:14px 24px; border-radius:10px; border:none; background:var(--gold); color:var(--ink); font-weight:700; font-size:0.95rem; cursor:pointer; white-space:nowrap;">
+        Join the Waitlist →
+      </button>
+    </form>
+    <div id="msg-bottom" class="success-msg" style="display:none; margin-top:16px; background:rgba(255,255,255,0.15); border:2px solid rgba(255,255,255,0.4); border-radius:16px; padding:20px 28px; color:#fff; text-align:center;">
+      <div style="font-size:1.8rem; margin-bottom:6px;">🍎</div>
+      <strong style="font-size:1.05rem; display:block; margin-bottom:6px;">You are Now Ready to Keep What You Earn!!!</strong>
+      <span style="font-size:0.88rem; opacity:0.8;">Check your Email to Confirm your spot!</span>
+    </div>
   </div>
   <div class="form-note">🔒 No spam. Unsubscribe anytime.</div>
 </div>
@@ -1471,14 +1494,12 @@
       body: 'email_address=' + encodeURIComponent(email)
     })
     .then(() => {
+      form.style.display = 'none';
       document.getElementById(msgId).style.display = 'block';
-      form.querySelector('input[type="email"]').value = '';
-      form.querySelector('input[type="email"]').disabled = true;
     })
     .catch(() => {
+      form.style.display = 'none';
       document.getElementById(msgId).style.display = 'block';
-      form.querySelector('input[type="email"]').value = '';
-      form.querySelector('input[type="email"]').disabled = true;
     });
   }
 
